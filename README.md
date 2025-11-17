@@ -26,7 +26,7 @@ Utiliza este *checklist* para garantizar que tú o tus estudiantes completen el 
 #### **Fase 2: Producción de Contenido (Módulo 2)**
 
   * [ ] **2.1:** Analizar la competencia y crear el guion detallado (con descripciones de imágenes/escenas) usando **Harpa AI**.
-  * [ ] **2.2:** Generar todos los clips de video por escena con **Bedo** y enumerarlos.
+  * [ ] **2.2:** Generar todos los clips de video por escena con **Vidu IA** y enumerarlos.
   * [ ] **2.3:** Generar la narración de audio profesional para todas las escenas con **ElevenLabs**.
 
 #### **Fase 3: Post-producción y Publicación (Módulo 3)**
