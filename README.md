@@ -76,3 +76,6 @@ Dirígete al archivo **[`GUIDE.md`](https://www.google.com/search?q=./GUIDE.md)*
 **Nota para el Docente:** La guía completa con los Módulos y Tareas ya ha sido generada en el paso anterior. Simplemente crea el archivo `GUIDE.md` y pega ese contenido ahí.
 
 ¿Qué otra parte de la documentación te gustaría que desarrollemos? Por ejemplo, podemos crear el archivo `ALTERNATIVES.md` o ayudarte con la lista de *prompts* clave.
+
+
+## Seguimos con esta tarea, pronto tendremos contenido...18/11/2025
