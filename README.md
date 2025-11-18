@@ -79,4 +79,4 @@ Dirígete al archivo **[`GUIDE.md`](https://www.google.com/search?q=./GUIDE.md)*
 
 
 ## Seguimos con esta tarea, pronto tendremos contenido...18/11/2025
-### Vamos a los canales referidos: Alux, Blix, Relatos de la noche, Magnate medias
+### Vamos a los canales referidos: Alux, Blitz, Relatos de la noche, Magnate medias
