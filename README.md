@@ -84,6 +84,7 @@ Dirígete al archivo **[`GUIDE.md`](https://www.google.com/search?q=./GUIDE.md)*
 -------
 
 # Notas importantes: 
+-------------------
 **1-** HARPA AI no me funciona como en el tutorial
 **2-** El guión de video y texto en over se hizo copiando la trascripción de Youtube del vídeo de nuestra elección e indicándole a Gemini que lo redacte.
 **3-** Vidu en esta pc de bajos recursos genera los vídeos con un tiempo de 3 horas aproximadamente
