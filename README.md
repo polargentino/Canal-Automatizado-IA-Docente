@@ -80,3 +80,13 @@ Dirígete al archivo **[`GUIDE.md`](https://www.google.com/search?q=./GUIDE.md)*
 
 ## Seguimos con esta tarea, pronto tendremos contenido...18/11/2025
 ### Vamos a los canales referidos: Alux, Blitz, Relatos de la noche, Magnate medias
+
+-------
+
+# Notas importantes: 
+**1-** HARPA AI no me funciona como en el tutorial
+**2-** El guión de video y texto en over se hizo copiando la trascripción de Youtube del vídeo de nuestra elección e indicándole a Gemini que lo redacte.
+**3-** Vidu en esta pc de bajos recursos genera los vídeos con un tiempo de 3 horas aproximadamente
+**4-** Los 7 vídeos se generaron con Grok IA - hay que trabajar más en los prompt para obtener mejores resultados
+**5-** CapCut es tema de bastante práctica y ver tutoriales, la interfaz de usuario cambio a la fecha de lo que muestra alejavi, es distinta, al momento generé los 8 vídeos con Grok, los descargué, los subí al repo "Canal-automatizado-IA-Docente", generé los 7 audios en over con Elevenlbas y también los subí al repo.
+**6-** Para editar el video uso Capcut, arrastro el vídeo 1, luego arrastro el audio 1, como el audio es más largo que el vídeo con control D o clic derecho , voy duplicando el vídeo hasta alcanzar la longitud del audio.
