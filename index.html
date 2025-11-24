@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS Simulation</title>
+    <style>
+        :root {
+            --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --window-bg: rgba(245, 245, 247, 0.95);
+            --dock-bg: rgba(255, 255, 255, 0.2);
+            --menu-bar-bg: rgba(255, 255, 255, 0.5);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: var(--system-font);
+            user-select: none;
+        }
+
+        /* Fondo de pantalla estilo macOS Monterey (Base64 optimizado) */
+        .desktop-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAsJCQcHEQcNEBENDRYQFRYZHBgYFh4cHBwcHB4mIh4eHh4iJiYqKissJiY2NTU1NjZAQEBAQERERERERERERET/2wBDAQsLCw8NDx0QEB0fFhYWICkkJCQkKjYyMjIyMjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjT/wAARCAHgAtADAREAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAwQBAgUABgf/xAA7EAACAQMDAwIEBAUEAgIDAQEAAhEBIgMxBBMyISJBUQUmYXEkgZGhQrHB0fAUUuEHYjMV8XKSosLS/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAECAwQF/8QAJhEBAQACAgICAQUBAQEAAAAAAAERACExEkFRYXEiMoGRofCxwfH/2gAMAwEAAhEDEQA/ALeS05LTktOS1+38n854s5LTktOS05LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycniy3JOS1TknJaeTk8WW5JktU5KTknycnizS05JySnJaeTk8WclpyTklOS08nJ4s5LTktOS05LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJaclpXktOS08nJ4svyTktOS05J8nJ4svyWnJack5LTycniy/Jack5JyWnk5PFl+S1TknJack5PFl+Sc1Q5LTknyclFzktOS05LTktPJyeLOS05LTktOS08nJ4s5LTktOS05LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJack5LTycnizyWnJaclpyWnk5PFl+S1TktOSfJyeLLclqnJOSeTk8WX5LTktOS05J5OTxZfktU5LTknk5PFluS1TktOSfJyeLL8lqnJack8nJ4s//Z');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ----- Menu Bar ----- */
+        .menu-bar {
+            height: 30px;
+            background: var(--menu-bar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            color: black;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-bar .left, .menu-bar .right {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-bar .right {
+            margin-left: auto;
+        }
+
+        .menu-item {
+            margin-right: 20px;
+            cursor: default;
+        }
+        .menu-item:hover {
+            opacity: 0.7;
+        }
+
+        .apple-logo {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* ----- Desktop Area ----- */
+        .desktop-container {
+            height: calc(100% - 30px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .desktop-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .desktop-icon {
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .desktop-icon svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .desktop-icon span {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .desktop-icon:active svg {
+            filter: brightness(0.8);
+        }
+
+        .desktop-icon.selected span {
+            background-color: rgba(0,0,255,0.5);
+        }
+
+
+        /* ----- Windows ----- */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .window.closed {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        .window-header {
+            height: 38px;
+            background: rgba(230, 230, 230, 0.8);
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            cursor: grab;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .window-header:active {
+            cursor: grabbing;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .control.close { background: #ff5f56; border: 1px solid #e0443e; }
+        .control.minimize { background: #ffbd2e; border: 1px solid #dea123; }
+        .control.maximize { background: #27c93f; border: 1px solid #1aab29; }
+
+        .window-title {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            margin-right: 60px; /* Balance controls */
+        }
+
+        .window-content {
+            flex-grow: 1;
+            overflow: auto;
+            position: relative;
+        }
+
+        /* ----- Dock ----- */
+        .dock-container {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .dock {
+            background: var(--dock-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 10px;
+            display: flex;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .dock-icon {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            position: relative;
+        }
+
+        .dock-icon:hover {
+            transform: scale(1.1) translateY(-5px);
+        }
+        
+        .dock-icon svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .dock-separator {
+            width: 1px;
+            background: rgba(255,255,255,0.3);
+            margin: 0 5px;
+        }
+
+        /* --- App Specific Styles --- */
+        /* Terminal */
+        #term-content {
+            background: #1a1a1a;
+            color: #33ff00;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .term-input-line { display: flex; }
+        #term-input {
+            background: transparent;
+            border: none;
+            color: #33ff00;
+            font-family: inherit;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        /* Safari */
+        .browser-toolbar {
+            background: #f0f0f0;
+            padding: 8px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .url-bar {
+            flex-grow: 1;
+            background: white;
+            border-radius: 5px;
+            padding: 4px 10px;
+            text-align: center;
+            color: #666;
+            border: 1px solid #ccc;
+        }
+        #safari-frame {
+            width: 100%;
+            height: calc(100% - 45px);
+            border: none;
+        }
+
+        /* Finder */
+        .finder-sidebar {
+            width: 150px;
+            background: rgba(240,240,240,0.8);
+            padding: 10px;
+            border-right: 1px solid #ddd;
+        }
+        .finder-main {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+        }
+        .finder-item { text-align: center; cursor: pointer; }
+        .finder-item svg { width: 40px; height: 40px; }
+        
+        /* Messages */
+        .messages-layout { display: flex; height: 100%; }
+        .contacts-list { width: 200px; border-right: 1px solid #ddd; background: #f9f9f9; }
+        .contact { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; align-items: center;}
+        .avatar { width: 30px; height: 30px; background: #ccc; border-radius: 50%; margin-right: 10px; }
+        .message-thread { flex-grow: 1; background: white; padding: 20px; display: flex; flex-direction: column; }
+        .msg-bubble { background: #e9e9eb; padding: 8px 12px; border-radius: 15px; margin-bottom: 10px; max-width: 70%; align-self: flex-start; }
+        .msg-bubble.me { background: #007aff; color: white; align-self: flex-end; }
+
+    </style>
+</head>
+<body>
+
+    <div class="desktop-background"></div>
+
+    <div class="menu-bar">
+        <div class="left">
+            <div class="menu-item apple-logo"></div>
+            <div class="menu-item" style="font-weight: 700;">Finder</div>
+            <div class="menu-item">Archivo</div>
+            <div class="menu-item">Edición</div>
+            <div class="menu-item">Visualización</div>
+            <div class="menu-item">Ir</div>
+            <div class="menu-item">Ventana</div>
+            <div class="menu-item">Ayuda</div>
+        </div>
+        <div class="right">
+            <div class="menu-item">🔋 100%</div>
+            <div class="menu-item">📶 Wi-Fi</div>
+            <div class="menu-item">🔍</div>
+            <div class="menu-item" id="clock">Lun 24 Oct 10:09</div>
+        </div>
+    </div>
+
+    <div class="desktop-container" id="desktop-area">
+        <div class="desktop-icons">
+            <div class="desktop-icon" onclick="openWindow('finder')">
+                <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="#e1e1e1"/><path d="M35 35 H65 V65 H35 Z" fill="none" stroke="#007aff" stroke-width="4"/><path d="M50 35 V65 M35 50 H65" stroke="#007aff" stroke-width="4"/><circle cx="50" cy="50" r="12" fill="#007aff"/></svg>
+                <span>Finder</span>
+            </div>
+             <div class="desktop-icon" onclick="emptyTrash()">
+                <svg viewBox="0 0 100 100" id="trash-icon"><path d="M25 30 L30 85 Q32 95 40 95 L60 95 Q68 95 70 85 L75 30 Z" fill="#e1e1e1" stroke="#999" stroke-width="2"/><rect x="20" y="20" width="60" height="10" rx="2" fill="#999"/><path d="M40 20 L42 10 L58 10 L60 20 Z" fill="#999"/><path d="M38 40 V80 M50 40 V80 M62 40 V80" stroke="#ccc" stroke-width="3"/></svg>
+                <span id="trash-label">Papelera</span>
+            </div>
+        </div>
+
+        <div class="window closed" id="win-finder" style="width: 600px; height: 400px; top: 100px; left: 100px;">
+            <div class="window-header">
+                <div class="window-controls">
+                    <div class="control close" onclick="closeWindow('finder')"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <div class="window-title">Finder - Escritorio</div>
+            </div>
+            <div class="window-content" style="display: flex;">
+                <div class="finder-sidebar">
+                    <p>Favoritos</p>
+                    <p>📺 AirDrop</p>
+                    <p>🕒 Recientes</p>
+                    <p>🖥️ Escritorio</p>
+                    <p>📁 Documentos</p>
+                </div>
+                <div class="finder-main">
+                    <div class="finder-item" ondblclick="openWindow('photos')"><svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="15" fill="white"/><circle cx="50" cy="50" r="35" fill="orange"/><circle cx="40" cy="40" r="10" fill="yellow"/><path d="M15 85 Q50 40 85 85 Z" fill="lightblue"/></svg><span>Fotos de Vacaciones</span></div>
+                    <div class="finder-item"><svg viewBox="0 0 100 100"><path d="M10 20 L50 90 L90 20 Z" fill="#4285F4"/><rect x="30" y="40" width="40" height="10" fill="white"/></svg><span>Trabajo.docx</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window closed" id="win-safari" style="width: 800px; height: 600px; top: 50px; left: 150px;">
+            <div class="window-header">
+                <div class="window-controls">
+                    <div class="control close" onclick="closeWindow('safari')"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <div class="window-title">Safari</div>
+            </div>
+            <div class="window-content">
+                <div class="browser-toolbar">
+                    <span>⬅️</span><span>➡️</span>
+                    <div class="url-bar">🔒 es.wikipedia.org/wiki/MacOS</div>
+                    <span>🔄</span>
+                </div>
+                <iframe id="safari-frame" src="https://es.m.wikipedia.org/wiki/MacOS"></iframe>
+            </div>
+        </div>
+
+        <div class="window closed" id="win-terminal" style="width: 500px; height: 350px; top: 150px; left: 200px;">
+            <div class="window-header">
+                <div class="window-controls">
+                    <div class="control close" onclick="closeWindow('terminal')"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <div class="window-title">Terminal — -zsh</div>
+            </div>
+            <div class="window-content" id="term-content" onclick="document.getElementById('term-input').focus()">
+                <div>Last login: Mon Oct 24 10:09:00 on ttys000</div>
+                <div>Bienvenido a macOS. Escribe 'help' para ayuda.</div>
+                <div class="term-input-line">
+                    <span>user@MacBook-Pro ~ % </span>
+                    <input type="text" id="term-input" autocomplete="off" spellcheck="false">
+                </div>
+            </div>
+        </div>
+
+        <div class="window closed" id="win-messages" style="width: 700px; height: 500px; top: 80px; left: 120px;">
+             <div class="window-header">
+                <div class="window-controls">
+                    <div class="control close" onclick="closeWindow('messages')"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <div class="window-title">Mensajes</div>
+            </div>
+            <div class="window-content messages-layout">
+                <div class="contacts-list">
+                    <div class="contact" style="background: #e5e5e5;">
+                        <div class="avatar" style="background: #007aff;"></div>
+                        <div style="font-weight:600;">Tim Cook</div>
+                    </div>
+                     <div class="contact">
+                        <div class="avatar" style="background: orange;"></div>
+                        <div>Mamá</div>
+                    </div>
+                </div>
+                <div class="message-thread">
+                    <div style="text-align: center; color: #999; margin-bottom: 20px;">iMessage con Tim Cook</div>
+                    <div class="msg-bubble">¡Hola! ¿Qué te parece la simulación?</div>
+                    <div class="msg-bubble me">¡Se ve increíble! 🚀</div>
+                    <div class="msg-bubble">Genial. Enviado desde mi iPhone.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="window closed" id="win-photos" style="width: 600px; height: 400px; top: 120px; left: 180px;">
+             <div class="window-header">
+                <div class="window-controls">
+                    <div class="control close" onclick="closeWindow('photos')"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <div class="window-title">Fotos</div>
+            </div>
+            <div class="window-content" style="padding: 20px; background: white;">
+                <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">Fototeca</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div style="height: 100px; background: #eee; border-radius: 5px; overflow: hidden;"><svg viewBox="0 0 100 100" style="width:100%; height:100%"><rect width="100" height="100" fill="lightblue"/><circle cx="30" cy="30" r="10" fill="yellow"/><path d="M0 100 L40 60 L60 80 L80 40 L100 70 L100 100 Z" fill="lightgreen"/></svg></div>
+                    <div style="height: 100px; background: #eee; border-radius: 5px; overflow: hidden;"><svg viewBox="0 0 100 100" style="width:100%; height:100%"><rect width="100" height="100" fill="#ffcccb"/><circle cx="50" cy="50" r="30" fill="red"/></svg></div>
+                    <div style="height: 100px; background: #eee; border-radius: 5px; overflow: hidden;"><svg viewBox="0 0 100 100" style="width:100%; height:100%"><rect width="100" height="100" fill="#ccc"/><rect x="20" y="20" width="60" height="60" fill="#666"/></svg></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div> <div class="dock-container">
+        <div class="dock">
+            <div class="dock-icon" onclick="openWindow('finder')" title="Finder">
+                <svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="white"/><path d="M25 25 H75 V75 H25 Z" fill="none" stroke="#007aff" stroke-width="5"/><path d="M50 25 V75 M25 50 H75" stroke="#007aff" stroke-width="5"/><circle cx="50" cy="50" r="15" fill="#007aff"/></svg>
+            </div>
+            <div class="dock-icon" title="Launchpad">
+                 <svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="none"/><circle cx="50" cy="50" r="45" fill="rgba(0,0,0,0.5)"/><circle cx="30" cy="30" r="5" fill="white"/><circle cx="50" cy="30" r="5" fill="white"/><circle cx="70" cy="30" r="5" fill="white"/><circle cx="30" cy="50" r="5" fill="white"/><circle cx="50" cy="50" r="5" fill="white"/><circle cx="70" cy="50" r="5" fill="white"/><circle cx="30" cy="70" r="5" fill="white"/><circle cx="50" cy="70" r="5" fill="white"/><circle cx="70" cy="70" r="5" fill="white"/></svg>
+            </div>
+            <div class="dock-icon" onclick="openWindow('safari')" title="Safari">
+                 <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="white"/><path d="M50 5 L55 45 L95 50 L55 55 L50 95 L45 55 L5 50 L45 45 Z" fill="#007aff"/><circle cx="50" cy="50" r="45" stroke="#ccc" stroke-width="2" fill="none"/></svg>
+            </div>
+            <div class="dock-icon" onclick="openWindow('messages')" title="Mensajes">
+                <svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="#34c759"/><path d="M25 30 Q25 20 35 20 H65 Q75 20 75 30 V60 Q75 70 65 70 H40 L25 85 V30 Z" fill="white"/></svg>
+            </div>
+            <div class="dock-icon" title="Mail">
+                 <svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="#007aff"/><path d="M20 30 L50 55 L80 30 V70 H20 V30 Z M20 25 H80" fill="white"/></svg>
+            </div>
+            <div class="dock-icon" onclick="openWindow('photos')" title="Fotos">
+                <svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="white"/><circle cx="50" cy="50" r="35" fill="orange"/><circle cx="40" cy="40" r="10" fill="yellow"/><path d="M15 85 Q50 40 85 85 Z" fill="lightblue"/></svg>
+            </div>
+            <div class="dock-separator"></div>
+             <div class="dock-icon" onclick="openWindow('terminal')" title="Terminal">
+                <svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="#333"/><path d="M25 30 L45 50 L25 70 M50 70 H75" stroke="white" stroke-width="5" fill="none"/></svg>
+            </div>
+            <div class="dock-separator"></div>
+            <div class="dock-icon" onclick="emptyTrash()" title="Papelera">
+                <svg viewBox="0 0 100 100"><path d="M25 30 L30 85 Q32 95 40 95 L60 95 Q68 95 70 85 L75 30 Z" fill="#e1e1e1" stroke="#999" stroke-width="2"/><rect x="20" y="20" width="60" height="10" rx="2" fill="#999"/><path d="M38 40 V80 M50 40 V80 M62 40 V80" stroke="#ccc" stroke-width="3"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Clock Functionality ---
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
+            const timeString = now.toLocaleTimeString('es-ES', options).replace(',', '');
+            document.getElementById('clock').innerText = timeString.charAt(0).toUpperCase() + timeString.slice(1);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- Window Management ---
+        let maxZIndex = 10;
+        let trashEmpty = false;
+
+        function openWindow(appName) {
+            const win = document.getElementById('win-' + appName);
+            if (win) {
+                win.classList.remove('closed');
+                bringToFront(win);
+            }
+        }
+
+        function closeWindow(appName) {
+            const win = document.getElementById('win-' + appName);
+            if (win) {
+                win.classList.add('closed');
+                 // Reset iframe when closed to stop video/audio playback
+                if(appName === 'safari') {
+                    const iframe = document.getElementById('safari-frame');
+                    const currentSrc = iframe.src;
+                    iframe.src = '';
+                    setTimeout(() => { iframe.src = currentSrc; }, 200);
+                }
+            }
+        }
+
+        function bringToFront(element) {
+            maxZIndex++;
+            element.style.zIndex = maxZIndex;
+        }
+
+        // --- Draggable Windows Code ---
+        const windows = document.querySelectorAll('.window');
+        let isDragging = false;
+        let currentWindow = null;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        windows.forEach(win => {
+            const header = win.querySelector('.window-header');
+            header.addEventListener('mousedown', dragStart);
+            win.addEventListener('mousedown', () => bringToFront(win));
+        });
+
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mousemove', drag);
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target.closest('.window-header') && !e.target.closest('.window-controls')) {
+                currentWindow = e.target.closest('.window');
+                isDragging = true;
+                // Get current transform values if any
+                const style = window.getComputedStyle(currentWindow);
+                const matrix = new WebKitCSSMatrix(style.transform);
+                xOffset = matrix.m41;
+                yOffset = matrix.m42;
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentWindow ? e.clientX - xOffset : initialX;
+            initialY = currentWindow ? e.clientY - yOffset : initialY;
+            isDragging = false;
+            currentWindow = null;
+        }
+
+        function drag(e) {
+            if (isDragging && currentWindow) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+                xOffset = currentX;
+                yOffset = currentY;
+                setTranslate(currentX, currentY, currentWindow);
+            }
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
+
+        // --- App Specific Functionality ---
+        
+        // Trash functionality
+        function emptyTrash() {
+            if(trashEmpty) {
+                 alert("La papelera ya está vacía.");
+                 return;
+            }
+            const confirmEmpty = confirm("¿Seguro que quieres vaciar la papelera? Esta acción no se puede deshacer.");
+            if(confirmEmpty) {
+                trashEmpty = true;
+                // Change icons to empty state
+                const emptyPath = "M25 30 L30 85 Q32 95 40 95 L60 95 Q68 95 70 85 L75 30 Z";
+                document.querySelectorAll('#trash-icon path:first-child').forEach(el => el.setAttribute('fill', 'white'));
+                 document.querySelectorAll('#trash-icon path:nth-child(3)').forEach(el => el.setAttribute('fill', 'white'));
+                document.getElementById('trash-label').innerText = "Papelera (Vacía)";
+            }
+        }
+
+        // Terminal functionality
+        const termInput = document.getElementById('term-input');
+        const termContent = document.getElementById('term-content');
+
+        termInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const command = this.value.trim().toLowerCase();
+                const output = document.createElement('div');
+                output.innerHTML = `<span style="color:#33ff00">user@MacBook-Pro ~ % </span> ${this.value}`;
+                termContent.insertBefore(output, this.parentNode);
+                this.value = '';
+
+                const response = document.createElement('div');
+                switch(command) {
+                    case 'help':
+                        response.innerText = "Comandos disponibles: help, date, whoami, clear, ls, echo [texto]";
+                        break;
+                    case 'date':
+                        response.innerText = new Date().toString();
+                        break;
+                    case 'whoami':
+                        response.innerText = "usuario_invitado";
+                        break;
+                    case 'clear':
+                        // Remove all previous lines except the input line
+                        while (termContent.childNodes.length > 1) {
+                            termContent.removeChild(termContent.firstChild);
+                        }
+                        response.innerText = ""; // No text response needed for clear
+                        break;
+                    case 'ls':
+                         response.innerText = "Escritorio   Documentos   Descargas   Música   Imágenes";
+                         break;
+                    default:
+                        if(command.startsWith('echo ')) {
+                             response.innerText = command.substring(5);
+                        } else if (command !== "") {
+                            response.innerText = `zsh: command not found: ${command}`;
+                        }
+                }
+                if(response.innerText !== "") {
+                     termContent.insertBefore(response, this.parentNode);
+                }
+                // Auto scroll to bottom
+                termContent.scrollTop = termContent.scrollHeight;
+            }
+        });
+
+        // Desktop Icons selection
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                e.stopPropagation();
+            });
+        });
+        document.getElementById('desktop-area').addEventListener('click', () => {
+             document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+        });
+
+    </script>
+</body>
+</html>
