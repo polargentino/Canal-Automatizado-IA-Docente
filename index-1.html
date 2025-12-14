@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Entrenamiento Físico - Nunca Nos Rendiremos</title>
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Theme Configuration -->
-<script id="tailwind-config">
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Entrenamiento Físico - Nunca Nos Rendiremos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
@@ -32,14 +32,13 @@
         },
       }
     </script>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet"/>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
         .material-symbols-outlined {
             font-variation-settings:
             'FILL' 0,
@@ -55,160 +54,1643 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: var(--surface-dark, #192233);
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        /* Page sections */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+        /* Progress bar animation */
+        @keyframes progress {
+            from { width: 0; }
+            to { width: var(--progress-width, 0); }
+        }
+        .progress-bar {
+            animation: progress 1s ease-out forwards;
+        }
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary, #1152d4);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased">
-<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-<!-- Top App Bar -->
-<div class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-gray-200 dark:border-gray-800">
-<div class="text-gray-900 dark:text-white flex size-12 shrink-0 items-center justify-start cursor-pointer">
-<span class="material-symbols-outlined text-[24px]">arrow_back</span>
-</div>
-<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center uppercase">Entrenamiento</h2>
-<div class="flex size-12 items-center justify-end cursor-pointer">
-<span class="material-symbols-outlined text-text-secondary text-[24px]">help</span>
-</div>
-</div>
-<!-- Motivational Header -->
-<div class="px-4 pt-6 pb-2">
-<h3 class="text-primary tracking-wide text-xs font-bold uppercase mb-1">Nunca Nos Rendiremos</h3>
-<h1 class="text-gray-900 dark:text-white text-3xl font-extrabold leading-tight">Fortaleza para la batalla</h1>
-<p class="text-text-secondary text-sm mt-2">Prepara tu cuerpo y mente con rutinas diseñadas para la disciplina táctica y espiritual.</p>
-</div>
-<!-- Search Bar -->
-<div class="px-4 py-4">
-<label class="flex flex-col min-w-40 h-12 w-full">
-<div class="flex w-full flex-1 items-stretch rounded-lg h-full shadow-sm">
-<div class="text-text-secondary flex border-none bg-white dark:bg-[#232f48] items-center justify-center pl-4 rounded-l-lg border-r-0">
-<span class="material-symbols-outlined text-[24px]">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none text-gray-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-white dark:bg-[#232f48] focus:border-none h-full placeholder:text-text-secondary px-4 pl-2 text-base font-normal leading-normal" placeholder="Buscar rutina..." value=""/>
-</div>
-</label>
-</div>
-<!-- Section: Featured (Routine of the Day) -->
-<div class="flex flex-col gap-2">
-<div class="flex items-center justify-between px-4 pb-2 pt-2">
-<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight">Rutina del Día</h2>
-<a class="text-primary text-sm font-bold" href="#">Ver todo</a>
-</div>
-<div class="px-4 @container">
-<div class="flex flex-col items-stretch justify-start rounded-lg shadow-lg dark:shadow-[0_0_4px_rgba(0,0,0,0.3)] bg-white dark:bg-surface-dark overflow-hidden">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="Dark moody gym setting with tactical weights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCtB43JUc5LjdFCS-FMrcAJmuslKCmryoEeK3f183lPKjn3VZmnva1Ddi2lGFa3nbV4c4_rWj41ZR22CCBpebqY5xITnEhXW3Xzmk5fBK82qq6kxLCQew4frfOjxruBPgHRsF5lc2Pyxvh7WADlVHon5TbPNEMjE8U4wh6H9EYpGqxLrym5msuXq6Pcgb09pri8xvoy6ULNf-c2w2iY3qzwGk1BwUlFy3aFGvFbPv780mBtb4OYKrZ1TL6bCj8sVzKkjFKLZrlXqQ");'>
-<div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">INTENSIDAD ALTA</div>
-</div>
-<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 p-4">
-<div class="flex justify-between items-start">
-<h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight">Resistencia Táctica</h3>
-<span class="material-symbols-outlined text-primary">bookmark_border</span>
-</div>
-<p class="text-text-secondary text-sm font-normal leading-normal line-clamp-2">Un circuito diseñado para simular condiciones de campo. Incluye carrera con peso y ejercicios calisténicos.</p>
-<div class="flex items-center gap-4 mt-3 mb-4 text-xs text-text-secondary font-medium">
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">schedule</span>
-                                45 min
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+    
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Ayuda</h3>
+                <button id="closeHelp" class="text-text-secondary hover:text-white">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-bold mb-1">¿Cómo empezar?</h4>
+                    <p class="text-sm text-text-secondary">Selecciona una rutina de la lista o explora las categorías para encontrar entrenamientos específicos.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-1">Seguimiento de progreso</h4>
+                    <p class="text-sm text-text-secondary">Tus entrenamientos se guardan automáticamente. Puedes ver tu progreso en la sección "Perfil".</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-1">Modo oscuro/claro</h4>
+                    <p class="text-sm text-text-secondary">Usa el botón en la esquina superior derecha para cambiar entre modos.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-1">¿Necesitas más ayuda?</h4>
+                    <p class="text-sm text-text-secondary">Contacta a nuestro equipo de soporte en soporte@entrenamiento.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Top App Bar -->
+        <div class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-gray-200 dark:border-gray-800">
+            <div id="backButton" class="text-gray-900 dark:text-white flex size-12 shrink-0 items-center justify-start cursor-pointer">
+                <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            </div>
+            <h2 id="pageTitle" class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center uppercase">Entrenamiento</h2>
+            <div class="flex items-center gap-2">
+                <div id="themeToggle" class="size-10 items-center justify-end cursor-pointer flex">
+                    <span class="material-symbols-outlined text-text-secondary text-[24px]">light_mode</span>
+                </div>
+                <div id="helpButton" class="size-12 items-center justify-end cursor-pointer flex">
+                    <span class="material-symbols-outlined text-text-secondary text-[24px]">help</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Home Page -->
+        <div id="homePage" class="page-section active fade-in">
+            <!-- Motivational Header -->
+            <div class="px-4 pt-6 pb-2">
+                <h3 class="text-primary tracking-wide text-xs font-bold uppercase mb-1">Nunca Nos Rendiremos</h3>
+                <h1 class="text-gray-900 dark:text-white text-3xl font-extrabold leading-tight">Fortaleza para la batalla</h1>
+                <p class="text-text-secondary text-sm mt-2">Prepara tu cuerpo y mente con rutinas diseñadas para la disciplina táctica y espiritual.</p>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="px-4 py-4">
+                <label class="flex flex-col min-w-40 h-12 w-full">
+                    <div class="flex w-full flex-1 items-stretch rounded-lg h-full shadow-sm">
+                        <div class="text-text-secondary flex border-none bg-white dark:bg-[#232f48] items-center justify-center pl-4 rounded-l-lg border-r-0">
+                            <span class="material-symbols-outlined text-[24px]">search</span>
+                        </div>
+                        <input id="searchInput" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none text-gray-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-white dark:bg-[#232f48] focus:border-none h-full placeholder:text-text-secondary px-4 pl-2 text-base font-normal leading-normal" placeholder="Buscar rutina..." value=""/>
+                    </div>
+                </label>
+            </div>
+            
+            <!-- Section: Featured (Routine of the Day) -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between px-4 pb-2 pt-2">
+                    <h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight">Rutina del Día</h2>
+                    <a id="viewAllRoutines" class="text-primary text-sm font-bold cursor-pointer">Ver todo</a>
+                </div>
+                <div class="px-4 @container">
+                    <div class="flex flex-col items-stretch justify-start rounded-lg shadow-lg dark:shadow-[0_0_4px_rgba(0,0,0,0.3)] bg-white dark:bg-surface-dark overflow-hidden">
+                        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="Dark moody gym setting with tactical weights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCtB43JUc5LjdFCS-FMrcAJmuslKCmryoEeK3f183lPKjn3VZmnva1Ddi2lGFa3nbV4c4_rWj41ZR22CCBpebqY5xITnEhXW3Xzmk5fBK82qq6kxLCQew4frfOjxruBPgHRsF5lc2Pyxvh7WADlVHon5TbPNEMjE8U4wh6H9EYpGqxLrym5msuXq6Pcgb09pri8xvoy6ULNf-c2w2iY3qzwGk1BwUlFy3aFGvFbPv780mBtb4OYKrZ1TL6bCj8sVzKkjFKLZrlXqQ");'>
+                            <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">INTENSIDAD ALTA</div>
+                        </div>
+                        <div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight">Resistencia Táctica</h3>
+                                <span id="bookmarkRoutine" class="material-symbols-outlined text-primary cursor-pointer hover:fill-current">bookmark_border</span>
                             </div>
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">fitness_center</span>
-                                Fuerza y Cardio
+                            <p class="text-text-secondary text-sm font-normal leading-normal line-clamp-2">Un circuito diseñado para simular condiciones de campo. Incluye carrera con peso y ejercicios calisténicos.</p>
+                            <div class="flex items-center gap-4 mt-3 mb-4 text-xs text-text-secondary font-medium">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">schedule</span>
+                                    45 min
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">fitness_center</span>
+                                    Fuerza y Cardio
+                                </div>
                             </div>
-</div>
-<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal uppercase tracking-wide">
-                            Iniciar Entrenamiento
+                            <button id="startRoutine" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal uppercase tracking-wide">
+                                Iniciar Entrenamiento
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section: Categories Grid -->
+            <div class="flex flex-col mt-6">
+                <h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight px-4 pb-3">Categorías</h2>
+                <div class="grid grid-cols-2 gap-3 px-4">
+                    <!-- Category Card 1 -->
+                    <div data-category="cardio" class="category-card bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+                            <span class="material-symbols-outlined text-[28px]">directions_run</span>
+                        </div>
+                        <h4 class="text-gray-900 dark:text-white font-bold text-sm">Cardio Táctico</h4>
+                        <p class="text-text-secondary text-xs">Resistencia y velocidad</p>
+                    </div>
+                    <!-- Category Card 2 -->
+                    <div data-category="strength" class="category-card bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+                            <span class="material-symbols-outlined text-[28px]">fitness_center</span>
+                        </div>
+                        <h4 class="text-gray-900 dark:text-white font-bold text-sm">Fuerza Bruta</h4>
+                        <p class="text-text-secondary text-xs">Pesas y potencia</p>
+                    </div>
+                    <!-- Category Card 3 -->
+                    <div data-category="mental" class="category-card bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+                            <span class="material-symbols-outlined text-[28px]">self_improvement</span>
+                        </div>
+                        <h4 class="text-gray-900 dark:text-white font-bold text-sm">Mentalidad</h4>
+                        <p class="text-text-secondary text-xs">Control y respiración</p>
+                    </div>
+                    <!-- Category Card 4 -->
+                    <div data-category="mobility" class="category-card bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+                            <span class="material-symbols-outlined text-[28px]">accessibility_new</span>
+                        </div>
+                        <h4 class="text-gray-900 dark:text-white font-bold text-sm">Movilidad</h4>
+                        <p class="text-text-secondary text-xs">Flexibilidad activa</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section: Popular Routines List -->
+            <div class="flex flex-col mt-8 pb-8">
+                <h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight px-4 pb-3">Populares esta semana</h2>
+                <div class="flex flex-col gap-3 px-4">
+                    <!-- List Item 1 -->
+                    <div data-routine-id="marcha-ruck" class="routine-item flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm cursor-pointer">
+                        <div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Soldiers running in formation" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzY9bG3B7gk9gNmhXb18ZGJI_x8ZA_Y2eLyhli36hA2JRepPT5wneWjlfqEUPuY42xL5rsufxBpsd4kTO7rh3lz4N09N-VcieD_JHWRqgVvgyXlv9P12h86v3eG8lcgUeJItH8kESi1nCHeFs3t5zNWIZlOf9KmPN4upvIH3r8MqZNfWT_g9w8hq2P3zj2oA4Ca51fTKUZrJ1OkJc7-BtU_2ziQDYegoxVQP14kL9C3hwxAb4nsJMzYCd2H5V8nwcw0UrgAT8fXg");'></div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-gray-900 dark:text-white font-bold text-base truncate">Marcha Ruck 10K</h4>
+                            <p class="text-text-secondary text-xs mt-1">60-90 min • Exterior</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <div class="h-1.5 w-16 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary w-2/3 progress-bar" style="--progress-width: 66%;"></div>
+                                </div>
+                                <span class="text-[10px] text-text-secondary">En progreso</span>
+                            </div>
+                        </div>
+                        <button class="play-button w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+                            <span class="material-symbols-outlined text-[20px]">play_arrow</span>
                         </button>
-</div>
-</div>
-</div>
-</div>
-<!-- Section: Categories Grid -->
-<div class="flex flex-col mt-6">
-<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight px-4 pb-3">Categorías</h2>
-<div class="grid grid-cols-2 gap-3 px-4">
-<!-- Category Card 1 -->
-<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
-<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
-<span class="material-symbols-outlined text-[28px]">directions_run</span>
-</div>
-<h4 class="text-gray-900 dark:text-white font-bold text-sm">Cardio Táctico</h4>
-<p class="text-text-secondary text-xs">Resistencia y velocidad</p>
-</div>
-<!-- Category Card 2 -->
-<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
-<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
-<span class="material-symbols-outlined text-[28px]">fitness_center</span>
-</div>
-<h4 class="text-gray-900 dark:text-white font-bold text-sm">Fuerza Bruta</h4>
-<p class="text-text-secondary text-xs">Pesas y potencia</p>
-</div>
-<!-- Category Card 3 -->
-<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
-<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
-<span class="material-symbols-outlined text-[28px]">self_improvement</span>
-</div>
-<h4 class="text-gray-900 dark:text-white font-bold text-sm">Mentalidad</h4>
-<p class="text-text-secondary text-xs">Control y respiración</p>
-</div>
-<!-- Category Card 4 -->
-<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
-<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
-<span class="material-symbols-outlined text-[28px]">accessibility_new</span>
-</div>
-<h4 class="text-gray-900 dark:text-white font-bold text-sm">Movilidad</h4>
-<p class="text-text-secondary text-xs">Flexibilidad activa</p>
-</div>
-</div>
-</div>
-<!-- Section: Popular Routines List -->
-<div class="flex flex-col mt-8 pb-8">
-<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight px-4 pb-3">Populares esta semana</h2>
-<div class="flex flex-col gap-3 px-4">
-<!-- List Item 1 -->
-<div class="flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm">
-<div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Soldiers running in formation" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzY9bG3B7gk9gNmhXb18ZGJI_x8ZA_Y2eLyhli36hA2JRepPT5wneWjlfqEUPuY42xL5rsufxBpsd4kTO7rh3lz4N09N-VcieD_JHWRqgVvgyXlv9P12h86v3eG8lcgUeJItH8kESi1nCHeFs3t5zNWIZlOf9KmPN4upvIH3r8MqZNfWT_g9w8hq2P3zj2oA4Ca51fTKUZrJ1OkJc7-BtU_2ziQDYegoxVQP14kL9C3hwxAb4nsJMzYCd2H5V8nwcw0UrgAT8fXg");'></div>
-<div class="flex-1 min-w-0">
-<h4 class="text-gray-900 dark:text-white font-bold text-base truncate">Marcha Ruck 10K</h4>
-<p class="text-text-secondary text-xs mt-1">60-90 min • Exterior</p>
-<div class="flex items-center gap-2 mt-1">
-<div class="h-1.5 w-16 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-<div class="h-full bg-primary w-2/3"></div>
-</div>
-<span class="text-[10px] text-text-secondary">En progreso</span>
-</div>
-</div>
-<button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
-<span class="material-symbols-outlined text-[20px]">play_arrow</span>
-</button>
-</div>
-<!-- List Item 2 -->
-<div class="flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm">
-<div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Person doing pushups outdoors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBG0gE1FrDdR7AOLqQIfKUtvup-IankcetILcy1uI1ZGM83fQXCbvrlsYCy-qTbZQ5cpN-wT0CFkMvledk0kkjS1CxEFF8uTqb40R_EHRqUWKCDwYM0_VYu9_6kCkZAd7McFt3RQgOPAf1FoZHvFgVu2VT9KOCu4Oy-7UfUSEvvDs3coubJs-jUfZe8CpFBSLXJ-x7u101WLVtYydENq2FxvhluMAfkju0yj2JmnhdWBPtx6Zj6DfAQ_icuMXC6E1Z71b7pXIwdGg");'></div>
-<div class="flex-1 min-w-0">
-<h4 class="text-gray-900 dark:text-white font-bold text-base truncate">El Murph Modificado</h4>
-<p class="text-text-secondary text-xs mt-1">30 min • Sin equipo</p>
-</div>
-<button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
-<span class="material-symbols-outlined text-[20px]">chevron_right</span>
-</button>
-</div>
-<!-- List Item 3 -->
-<div class="flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm">
-<div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Close up of kettlebell weights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDQeLqULt293GV82KEgabR5OBdQUn_P6k4GOdmsUu5SAupda5otZM0l9afQSogLYVlPucbhnIRvAC0RPuUhvyvRqW4UOwOHYfW4NOSrSX4s0xtPIEIKNGcy74jm7GPk7U18GPwdjAy6CFyMVReUwJk4vPeoOPGSUAxa00By5NVNo_pgw_TPozFt5l2z7CtKLSP9wDMhPTDh5Ntl_4IOwOiMUnArvAaOmHxtxuN09WRPQ0j_42v56g4NwEps6YebmqVUEJthX_nZZw");'></div>
-<div class="flex-1 min-w-0">
-<h4 class="text-gray-900 dark:text-white font-bold text-base truncate">Core de Acero</h4>
-<p class="text-text-secondary text-xs mt-1">15 min • Alta Intensidad</p>
-</div>
-<button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
-<span class="material-symbols-outlined text-[20px]">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Bottom Spacing -->
-<div class="h-20"></div>
-</div>
-</body></html>
+                    </div>
+                    <!-- List Item 2 -->
+                    <div data-routine-id="murph-modificado" class="routine-item flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm cursor-pointer">
+                        <div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Person doing pushups outdoors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBG0gE1FrDdR7AOLqQIfKUtvup-IankcetILcy1uI1ZGM83fQXCbvrlsYCy-qTbZQ5cpN-wT0CFkMvledk0kkjS1CxEFF8uTqb40R_EHRqUWKCDwYM0_VYu9_6kCkZAd7McFt3RQgOPAf1FoZHvFgVu2VT9KOCu4Oy-7UfUSEvvDs3coubJs-jUfZe8CpFBSLXJ-x7u101WLVtYydENq2FxvhluMAfkju0yj2JmnhdWBPtx6Zj6DfAQ_icuMXC6E1Z71b7pXIwdGg");'></div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-gray-900 dark:text-white font-bold text-base truncate">El Murph Modificado</h4>
+                            <p class="text-text-secondary text-xs mt-1">30 min • Sin equipo</p>
+                        </div>
+                        <button class="play-button w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+                            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                        </button>
+                    </div>
+                    <!-- List Item 3 -->
+                    <div data-routine-id="core-acero" class="routine-item flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm cursor-pointer">
+                        <div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Close up of kettlebell weights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDQeLqULt293GV82KEgabR5OBdQUn_P6k4GOdmsUu5SAupda5otZM0l9afQSogLYVlPucbhnIRvAC0RPuUhvyvRqW4UOwOHYfW4NOSrSX4s0xtPIEIKNGcy74jm7GPk7U18GPwdjAy6CFyMVReUwJk4vPeoOPGSUAxa00By5NVNo_pgw_TPozFt5l2z7CtKLSP9wDMhPTDh5Ntl_4IOwOiMUnArvAaOmHxtxuN09WRPQ0j_42v56g4NwEps6YebmqVUEJthX_nZZw");'></div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-gray-900 dark:text-white font-bold text-base truncate">Core de Acero</h4>
+                            <p class="text-text-secondary text-xs mt-1">15 min • Alta Intensidad</p>
+                        </div>
+                        <button class="play-button w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+                            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category Page -->
+        <div id="categoryPage" class="page-section">
+            <div class="px-4 pt-6 pb-2">
+                <h3 id="categoryTitle" class="text-primary tracking-wide text-xs font-bold uppercase mb-1">Categoría</h3>
+                <h1 id="categoryName" class="text-gray-900 dark:text-white text-3xl font-extrabold leading-tight">Nombre Categoría</h1>
+                <p id="categoryDescription" class="text-text-secondary text-sm mt-2">Descripción de la categoría.</p>
+            </div>
+            
+            <div class="px-4 py-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight">Rutinas</h2>
+                    <select id="sortRoutines" class="bg-white dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-1 text-sm">
+                        <option value="popular">Más populares</option>
+                        <option value="newest">Más recientes</option>
+                        <option value="difficulty">Por dificultad</option>
+                        <option value="duration">Por duración</option>
+                    </select>
+                </div>
+                
+                <div id="categoryRoutines" class="flex flex-col gap-3">
+                    <!-- Category routines will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Routine Detail Page -->
+        <div id="routineDetailPage" class="page-section">
+            <div class="px-4 pt-6 pb-2">
+                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg mb-4" id="routineDetailImage"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 id="routineDetailCategory" class="text-primary tracking-wide text-xs font-bold uppercase mb-1">Categoría</h3>
+                        <h1 id="routineDetailName" class="text-gray-900 dark:text-white text-3xl font-extrabold leading-tight">Nombre Rutina</h1>
+                    </div>
+                    <span id="routineDetailBookmark" class="material-symbols-outlined text-primary cursor-pointer hover:fill-current">bookmark_border</span>
+                </div>
+                <p id="routineDetailDescription" class="text-text-secondary text-sm mt-2 mb-4">Descripción de la rutina.</p>
+                
+                <div class="flex items-center gap-4 mb-6 text-xs text-text-secondary font-medium">
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">schedule</span>
+                        <span id="routineDetailDuration">45 min</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">fitness_center</span>
+                        <span id="routineDetailType">Fuerza y Cardio</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span>
+                        <span id="routineDetailIntensity">Intensidad Alta</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight mb-3">Ejercicios</h2>
+                    <div id="routineExercises" class="space-y-3">
+                        <!-- Exercises will be dynamically loaded here -->
+                    </div>
+                </div>
+                
+                <button id="startRoutineDetail" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal uppercase tracking-wide">
+                    Iniciar Entrenamiento
+                </button>
+            </div>
+        </div>
+        
+        <!-- Active Workout Page -->
+        <div id="workoutPage" class="page-section">
+            <div class="px-4 pt-6 pb-2">
+                <div class="text-center mb-6">
+                    <h1 id="workoutRoutineName" class="text-gray-900 dark:text-white text-2xl font-bold leading-tight mb-2">Nombre Rutina</h1>
+                    <div class="flex justify-center items-center gap-4 text-sm text-text-secondary">
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">schedule</span>
+                            <span id="workoutTimer">00:00</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">fitness_center</span>
+                            <span id="workoutProgress">1/10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-surface-dark rounded-lg p-6 mb-6 text-center">
+                    <h2 id="currentExerciseName" class="text-gray-900 dark:text-white text-xl font-bold leading-tight mb-2">Nombre del Ejercicio</h2>
+                    <p id="currentExerciseDescription" class="text-text-secondary text-sm mb-4">Descripción del ejercicio</p>
+                    <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-6xl text-gray-400">fitness_center</span>
+                    </div>
+                    <div class="flex justify-center items-center gap-4 mb-6">
+                        <div class="text-center">
+                            <p class="text-text-secondary text-xs mb-1">Series</p>
+                            <p id="currentExerciseSets" class="text-2xl font-bold">3</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-text-secondary text-xs mb-1">Repeticiones</p>
+                            <p id="currentExerciseReps" class="text-2xl font-bold">15</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-text-secondary text-xs mb-1">Descanso</p>
+                            <p id="currentExerciseRest" class="text-2xl font-bold">30s</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center gap-4">
+                        <button id="pauseWorkout" class="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-900 dark:text-white">
+                            <span class="material-symbols-outlined text-[28px]">pause</span>
+                        </button>
+                        <button id="nextExercise" class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white">
+                            <span class="material-symbols-outlined text-[28px]">skip_next</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight mb-3">Próximos Ejercicios</h3>
+                    <div id="upcomingExercises" class="space-y-2">
+                        <!-- Upcoming exercises will be dynamically loaded here -->
+                    </div>
+                </div>
+                
+                <button id="endWorkout" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-red-600 hover:bg-red-700 transition-colors text-white text-sm font-bold leading-normal">
+                    Finalizar Entrenamiento
+                </button>
+            </div>
+        </div>
+        
+        <!-- All Routines Page -->
+        <div id="allRoutinesPage" class="page-section">
+            <div class="px-4 pt-6 pb-2">
+                <h3 class="text-primary tracking-wide text-xs font-bold uppercase mb-1">Todas las Rutinas</h3>
+                <h1 class="text-gray-900 dark:text-white text-3xl font-extrabold leading-tight">Explora Entrenamientos</h1>
+                <p class="text-text-secondary text-sm mt-2">Descubre rutinas para todos los niveles y objetivos.</p>
+            </div>
+            
+            <div class="px-4 py-4">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex gap-2">
+                        <button class="filter-btn px-3 py-1 rounded-full bg-primary text-white text-xs font-medium" data-filter="all">Todas</button>
+                        <button class="filter-btn px-3 py-1 rounded-full bg-white dark:bg-surface-dark text-gray-900 dark:text-white text-xs font-medium" data-filter="beginner">Principiante</button>
+                        <button class="filter-btn px-3 py-1 rounded-full bg-white dark:bg-surface-dark text-gray-900 dark:text-white text-xs font-medium" data-filter="intermediate">Intermedio</button>
+                        <button class="filter-btn px-3 py-1 rounded-full bg-white dark:bg-surface-dark text-gray-900 dark:text-white text-xs font-medium" data-filter="advanced">Avanzado</button>
+                    </div>
+                    <select id="sortAllRoutines" class="bg-white dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-1 text-sm">
+                        <option value="popular">Más populares</option>
+                        <option value="newest">Más recientes</option>
+                        <option value="difficulty">Por dificultad</option>
+                        <option value="duration">Por duración</option>
+                    </select>
+                </div>
+                
+                <div id="allRoutinesList" class="grid grid-cols-1 gap-3">
+                    <!-- All routines will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Spacing -->
+        <div class="h-20"></div>
+    </div>
+
+    <script>
+        // App State
+        const appState = {
+            currentPage: 'home',
+            currentCategory: null,
+            currentRoutine: null,
+            workoutActive: false,
+            workoutTimer: null,
+            workoutSeconds: 0,
+            currentExerciseIndex: 0,
+            bookmarkedRoutines: [],
+            completedRoutines: []
+        };
+
+        // DOM Elements
+        const elements = {
+            // Pages
+            homePage: document.getElementById('homePage'),
+            categoryPage: document.getElementById('categoryPage'),
+            routineDetailPage: document.getElementById('routineDetailPage'),
+            workoutPage: document.getElementById('workoutPage'),
+            allRoutinesPage: document.getElementById('allRoutinesPage'),
+            
+            // UI Elements
+            pageTitle: document.getElementById('pageTitle'),
+            backButton: document.getElementById('backButton'),
+            themeToggle: document.getElementById('themeToggle'),
+            helpButton: document.getElementById('helpButton'),
+            helpModal: document.getElementById('helpModal'),
+            closeHelp: document.getElementById('closeHelp'),
+            toast: document.getElementById('toast'),
+            searchInput: document.getElementById('searchInput'),
+            
+            // Home Page Elements
+            viewAllRoutines: document.getElementById('viewAllRoutines'),
+            bookmarkRoutine: document.getElementById('bookmarkRoutine'),
+            startRoutine: document.getElementById('startRoutine'),
+            
+            // Category Page Elements
+            categoryTitle: document.getElementById('categoryTitle'),
+            categoryName: document.getElementById('categoryName'),
+            categoryDescription: document.getElementById('categoryDescription'),
+            categoryRoutines: document.getElementById('categoryRoutines'),
+            sortRoutines: document.getElementById('sortRoutines'),
+            
+            // Routine Detail Page Elements
+            routineDetailImage: document.getElementById('routineDetailImage'),
+            routineDetailCategory: document.getElementById('routineDetailCategory'),
+            routineDetailName: document.getElementById('routineDetailName'),
+            routineDetailDescription: document.getElementById('routineDetailDescription'),
+            routineDetailDuration: document.getElementById('routineDetailDuration'),
+            routineDetailType: document.getElementById('routineDetailType'),
+            routineDetailIntensity: document.getElementById('routineDetailIntensity'),
+            routineDetailBookmark: document.getElementById('routineDetailBookmark'),
+            routineExercises: document.getElementById('routineExercises'),
+            startRoutineDetail: document.getElementById('startRoutineDetail'),
+            
+            // Workout Page Elements
+            workoutRoutineName: document.getElementById('workoutRoutineName'),
+            workoutTimer: document.getElementById('workoutTimer'),
+            workoutProgress: document.getElementById('workoutProgress'),
+            currentExerciseName: document.getElementById('currentExerciseName'),
+            currentExerciseDescription: document.getElementById('currentExerciseDescription'),
+            currentExerciseSets: document.getElementById('currentExerciseSets'),
+            currentExerciseReps: document.getElementById('currentExerciseReps'),
+            currentExerciseRest: document.getElementById('currentExerciseRest'),
+            pauseWorkout: document.getElementById('pauseWorkout'),
+            nextExercise: document.getElementById('nextExercise'),
+            upcomingExercises: document.getElementById('upcomingExercises'),
+            endWorkout: document.getElementById('endWorkout'),
+            
+            // All Routines Page Elements
+            filterButtons: document.querySelectorAll('.filter-btn'),
+            sortAllRoutines: document.getElementById('sortAllRoutines'),
+            allRoutinesList: document.getElementById('allRoutinesList')
+        };
+
+        // Categories Data
+        const categories = {
+            cardio: {
+                title: 'Cardio Táctico',
+                description: 'Resistencia y velocidad',
+                fullDescription: 'Mejora tu capacidad cardiovascular con ejercicios de alta intensidad diseñados para aumentar tu resistencia y velocidad en condiciones tácticas.',
+                routines: [
+                    {
+                        id: 'sprints-tacticos',
+                        name: 'Sprints Tácticos',
+                        description: 'Sprints intervalados con cambios de dirección',
+                        duration: '20 min',
+                        type: 'Cardio',
+                        intensity: 'Alta',
+                        image: 'https://picsum.photos/seed/sprints/800/450.jpg',
+                        exercises: [
+                            { name: 'Calentamiento', description: 'Trote ligero y movilidad articular', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Sprints de 100m', description: 'Correr a máxima velocidad', sets: 8, reps: '100m', rest: '45s' },
+                            { name: 'Carreras laterales', description: 'Movimientos laterales rápidos', sets: 4, reps: '20m', rest: '30s' },
+                            { name: 'Enfriamiento', description: 'Estiramientos suaves', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    },
+                    {
+                        id: 'circuitos-cardio',
+                        name: 'Circuitos Cardio',
+                        description: 'Estaciones de ejercicios cardiovasculares',
+                        duration: '30 min',
+                        type: 'Circuito',
+                        intensity: 'Media',
+                        image: 'https://picsum.photos/seed/circuitos/800/450.jpg',
+                        exercises: [
+                            { name: 'Calentamiento', description: 'Movilidad general', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Saltos de cuerda', description: 'Saltos coordinados', sets: 3, reps: '2 min', rest: '1 min' },
+                            { name: 'Burpees', description: 'Flexión y salto', sets: 3, reps: '15', rest: '1 min' },
+                            { name: 'Mountain climbers', description: 'Correr en posición de plancha', sets: 3, reps: '30', rest: '1 min' },
+                            { name: 'Jumping jacks', description: 'Saltos abriendo y cerrando piernas y brazos', sets: 3, reps: '30', rest: '1 min' },
+                            { name: 'Enfriamiento', description: 'Estiramientos', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    }
+                ]
+            },
+            strength: {
+                title: 'Fuerza Bruta',
+                description: 'Pesas y potencia',
+                fullDescription: 'Desarrolla fuerza muscular y potencia con rutinas centradas en levantamiento de pesas y ejercicios de alta intensidad.',
+                routines: [
+                    {
+                        id: 'fuerza-funcional',
+                        name: 'Fuerza Funcional',
+                        description: 'Ejercicios con peso corporal y objetos',
+                        duration: '45 min',
+                        type: 'Fuerza',
+                        intensity: 'Alta',
+                        image: 'https://picsum.photos/seed/fuerza/800/450.jpg',
+                        exercises: [
+                            { name: 'Calentamiento', description: 'Movilidad articular', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Sentadillas con peso', description: 'Con mochila o kettlebell', sets: 4, reps: '12', rest: '60s' },
+                            { name: 'Flexiones', description: 'Variaciones según nivel', sets: 4, reps: '15', rest: '60s' },
+                            { name: 'Remo con objeto', description: 'Con kettlebell o similar', sets: 4, reps: '12', rest: '60s' },
+                            { name: 'Press militar', description: 'Con mancuernas o kettlebell', sets: 4, reps: '10', rest: '60s' },
+                            { name: 'Enfriamiento', description: 'Estiramientos', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    },
+                    {
+                        id: 'potencia-explosiva',
+                        name: 'Potencia Explosiva',
+                        description: 'Movimientos rápidos y potentes',
+                        duration: '35 min',
+                        type: 'Potencia',
+                        intensity: 'Alta',
+                        image: 'https://picsum.photos/seed/potencia/800/450.jpg',
+                        exercises: [
+                            { name: 'Calentamiento', description: 'Activación neuromuscular', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Box jumps', description: 'Saltos a caja o plataforma', sets: 4, reps: '8', rest: '90s' },
+                            { name: 'Kettlebell swings', description: 'Balanceo de kettlebell', sets: 4, reps: '15', rest: '60s' },
+                            { name: 'Thrusters', description: 'Sentadilla con press', sets: 4, reps: '10', rest: '60s' },
+                            { name: 'Power cleans', description: 'Levantamiento explosivo', sets: 4, reps: '8', rest: '90s' },
+                            { name: 'Enfriamiento', description: 'Estiramientos suaves', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    }
+                ]
+            },
+            mental: {
+                title: 'Mentalidad',
+                description: 'Control y respiración',
+                fullDescription: 'Fortalece tu mente con técnicas de respiración, meditación y ejercicios de concentración diseñados para mejorar tu resistencia mental.',
+                routines: [
+                    {
+                        id: 'respiracion-tactica',
+                        name: 'Respiración Táctica',
+                        description: 'Técnicas de respiración para el control del estrés',
+                        duration: '15 min',
+                        type: 'Respiración',
+                        intensity: 'Baja',
+                        image: 'https://picsum.photos/seed/respiracion/800/450.jpg',
+                        exercises: [
+                            { name: 'Preparación', description: 'Posición cómoda y relajada', sets: 1, reps: '2 min', rest: '0' },
+                            { name: 'Respiración diafragmática', description: 'Respiración profunda abdominal', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Respiración en caja', description: '4-4-4-4: inhala, sostén, exhala, sostén', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Relajación', description: 'Consciencia corporal', sets: 1, reps: '3 min', rest: '0' }
+                        ]
+                    },
+                    {
+                        id: 'meditacion-guerrera',
+                        name: 'Meditación Guerrera',
+                        description: 'Visualización y enfoque mental',
+                        duration: '20 min',
+                        type: 'Meditación',
+                        intensity: 'Baja',
+                        image: 'https://picsum.photos/seed/meditacion/800/450.jpg',
+                        exercises: [
+                            { name: 'Preparación', description: 'Posición de meditación', sets: 1, reps: '2 min', rest: '0' },
+                            { name: 'Anclaje al presente', description: 'Consciencia del momento actual', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Visualización de éxito', description: 'Imaginar logro de objetivos', sets: 1, reps: '8 min', rest: '0' },
+                            { name: 'Respiración de recuperación', description: 'Técnica de calma', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    }
+                ]
+            },
+            mobility: {
+                title: 'Movilidad',
+                description: 'Flexibilidad activa',
+                fullDescription: 'Mejora tu rango de movimiento y flexibilidad con ejercicios de movilidad articular y estiramientos dinámicos.',
+                routines: [
+                    {
+                        id: 'movilidad-articular',
+                        name: 'Movilidad Articular',
+                        description: 'Ejercicios para todas las articulaciones principales',
+                        duration: '25 min',
+                        type: 'Movilidad',
+                        intensity: 'Baja',
+                        image: 'https://picsum.photos/seed/movilidad/800/450.jpg',
+                        exercises: [
+                            { name: 'Calentamiento', description: 'Movimiento ligero', sets: 1, reps: '3 min', rest: '0' },
+                            { name: 'Círculos de cuello', description: 'Movimientos suaves del cuello', sets: 1, reps: '10 cada dirección', rest: '0' },
+                            { name: 'Rotaciones de hombros', description: 'Movimientos circulares', sets: 1, reps: '10 cada dirección', rest: '0' },
+                            { name: 'Rotaciones de cadera', description: 'Círculos con las caderas', sets: 1, reps: '10 cada dirección', rest: '0' },
+                            { name: 'Movilidad de tobillo', description: 'Flexión y extensión', sets: 1, reps: '10 cada pie', rest: '0' },
+                            { name: 'Estiramientos suaves', description: 'Mantener posiciones', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    },
+                    {
+                        id: 'flexibilidad-dinamica',
+                        name: 'Flexibilidad Dinámica',
+                        description: 'Estiramientos activos y dinámicos',
+                        duration: '30 min',
+                        type: 'Flexibilidad',
+                        intensity: 'Media',
+                        image: 'https://picsum.photos/seed/flexibilidad/800/450.jpg',
+                        exercises: [
+                            { name: 'Calentamiento', description: 'Cardio ligero', sets: 1, reps: '5 min', rest: '0' },
+                            { name: 'Swing de piernas', description: 'Balanceo frontal y lateral', sets: 2, reps: '15 cada pierna', rest: '30s' },
+                            { name: 'Estiramiento de isquiotibiales', description: 'Dinámico y estático', sets: 2, reps: '30s', rest: '15s' },
+                            { name: 'Apertura de cadera', description: 'Estiramiento de glúteos', sets: 2, reps: '30s cada lado', rest: '15s' },
+                            { name: 'Flexión de tronco', description: 'Estiramiento de espalda', sets: 2, reps: '30s', rest: '15s' },
+                            { name: 'Relajación', description: 'Estiramientos suaves', sets: 1, reps: '5 min', rest: '0' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Additional Routines Data
+        const additionalRoutines = [
+            {
+                id: 'marcha-ruck',
+                name: 'Marcha Ruck 10K',
+                description: 'Caminata con mochila pesada',
+                duration: '60-90 min',
+                type: 'Resistencia',
+                intensity: 'Media',
+                category: 'cardio',
+                difficulty: 'intermediate',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAzY9bG3B7gk9gNmhXb18ZGJI_x8ZA_Y2eLyhli36hA2JRepPT5wneWjlfqEUPuY42xL5rsufxBpsd4kTO7rh3lz4N09N-VcieD_JHWRqgVvgyXlv9P12h86v3eG8lcgUeJItH8kESi1nCHeFs3t5zNWIZlOf9KmPN4upvIH3r8MqZNfWT_g9w8hq2P3zj2oA4Ca51fTKUZrJ1OkJc7-BtU_2ziQDYegoxVQP14kL9C3hwxAb4nsJMzYCd2H5V8nwcw0UrgAT8fXg',
+                exercises: [
+                    { name: 'Preparación', description: 'Ajuste de mochila y calentamiento', sets: 1, reps: '10 min', rest: '0' },
+                    { name: 'Marcha con peso', description: 'Caminata a ritmo constante', sets: 1, reps: '10 km', rest: '0' },
+                    { name: 'Enfriamiento', description: 'Estiramientos y recuperación', sets: 1, reps: '10 min', rest: '0' }
+                ]
+            },
+            {
+                id: 'murph-modificado',
+                name: 'El Murph Modificado',
+                description: 'Versión adaptada del famoso WOD',
+                duration: '30 min',
+                type: 'Circuito',
+                intensity: 'Alta',
+                category: 'strength',
+                difficulty: 'advanced',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBG0gE1FrDdR7AOLqQIfKUtvup-IankcetILcy1uI1ZGM83fQXCbvrlsYCy-qTbZQ5cpN-wT0CFkMvledk0kkjS1CxEFF8uTqb40R_EHRqUWKCDwYM0_VYu9_6kCkZAd7McFt3RQgOPAf1FoZHvFgVu2VT9KOCu4Oy-7UfUSEvvDs3coubJs-jUfZe8CpFBSLXJ-x7u101WLVtYydENq2FxvhluMAfkju0yj2JmnhdWBPtx6Zj6DfAQ_icuMXC6E1Z71b7pXIwdGg',
+                exercises: [
+                    { name: 'Calentamiento', description: 'Movilidad general', sets: 1, reps: '5 min', rest: '0' },
+                    { name: 'Flexiones', description: 'Variación según nivel', sets: 1, reps: '50', rest: '0' },
+                    { name: 'Sentadillas', description: 'Peso corporal', sets: 1, reps: '100', rest: '0' },
+                    { name: 'Dominadas o flexiones en barra', description: 'Variación según nivel', sets: 1, reps: '25', rest: '0' },
+                    { name: 'Enfriamiento', description: 'Estiramientos', sets: 1, reps: '5 min', rest: '0' }
+                ]
+            },
+            {
+                id: 'core-acero',
+                name: 'Core de Acero',
+                description: 'Fortalecimiento de la zona central',
+                duration: '15 min',
+                type: 'Fuerza',
+                intensity: 'Alta',
+                category: 'strength',
+                difficulty: 'intermediate',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDQeLqULt293GV82KEgabR5OBdQUn_P6k4GOdmsUu5SAupda5otZM0l9afQSogLYVlPucbhnIRvAC0RPuUhvyvRqW4UOwOHYfW4NOSrSX4s0xtPIEIKNGcy74jm7GPk7U18GPwdjAy6CFyMVReUwJk4vPeoOPGSUAxa00By5NVNo_pgw_TPozFt5l2z7CtKLSP9wDMhPTDh5Ntl_4IOwOiMUnArvAaOmHxtxuN09WRPQ0j_42v56g4NwEps6YebmqVUEJthX_nZZw',
+                exercises: [
+                    { name: 'Calentamiento', description: 'Activación del core', sets: 1, reps: '2 min', rest: '0' },
+                    { name: 'Plancha frontal', description: 'Mantener posición', sets: 3, reps: '45s', rest: '30s' },
+                    { name: 'Plancha lateral', description: 'Cada lado', sets: 3, reps: '30s', rest: '30s' },
+                    { name: 'Elevación de piernas', description: 'Acostado boca arriba', sets: 3, reps: '15', rest: '30s' },
+                    { name: 'Russian twists', description: 'Con o sin peso', sets: 3, reps: '20', rest: '30s' },
+                    { name: 'Enfriamiento', description: 'Estiramientos suaves', sets: 1, reps: '3 min', rest: '0' }
+                ]
+            },
+            {
+                id: 'resistencia-tactica',
+                name: 'Resistencia Táctica',
+                description: 'Un circuito diseñado para simular condiciones de campo. Incluye carrera con peso y ejercicios calisténicos.',
+                duration: '45 min',
+                type: 'Fuerza y Cardio',
+                intensity: 'Alta',
+                category: 'cardio',
+                difficulty: 'advanced',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCtB43JUc5LjdFCS-FMrcAJmuslKCmryoEeK3f183lPKjn3VZmnva1Ddi2lGFa3nbV4c4_rWj41ZR22CCBpebqY5xITnEhXW3Xzmk5fBK82qq6kxLCQew4frfOjxruBPgHRsF5lc2Pyxvh7WADlVHon5TbPNEMjE8U4wh6H9EYpGqxLrym5msuXq6Pcgb09pri8xvoy6ULNf-c2w2iY3qzwGk1BwUlFy3aFGvFbPv780mBtb4OYKrZ1TL6bCj8sVzKkjFKLZrlXqQ',
+                exercises: [
+                    { name: 'Calentamiento', description: 'Movilidad y activación', sets: 1, reps: '5 min', rest: '0' },
+                    { name: 'Carrera con peso', description: 'Con mochila o chaleco', sets: 1, reps: '1 km', rest: '2 min' },
+                    { name: 'Arrastrarse', description: 'Reptar bajo obstáculos imaginarios', sets: 3, reps: '20m', rest: '1 min' },
+                    { name: 'Saltos de caja', description: 'Explosividad', sets: 3, reps: '10', rest: '1 min' },
+                    { name: 'Transporte de peso', description: 'Cargar objetos pesados', sets: 3, reps: '30m', rest: '1 min' },
+                    { name: 'Flexiones', description: 'Variación táctica', sets: 3, reps: '15', rest: '1 min' },
+                    { name: 'Enfriamiento', description: 'Estiramientos y recuperación', sets: 1, reps: '5 min', rest: '0' }
+                ]
+            }
+        ];
+
+        // Initialize App
+        function initApp() {
+            // Load saved data from localStorage
+            loadSavedData();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Initialize theme
+            initTheme();
+            
+            // Show home page
+            showPage('home');
+        }
+
+        // Load saved data from localStorage
+        function loadSavedData() {
+            const savedBookmarks = localStorage.getItem('bookmarkedRoutines');
+            if (savedBookmarks) {
+                appState.bookmarkedRoutines = JSON.parse(savedBookmarks);
+            }
+            
+            const savedCompleted = localStorage.getItem('completedRoutines');
+            if (savedCompleted) {
+                appState.completedRoutines = JSON.parse(savedCompleted);
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            elements.backButton.addEventListener('click', handleBackButton);
+            
+            // Theme toggle
+            elements.themeToggle.addEventListener('click', toggleTheme);
+            
+            // Help modal
+            elements.helpButton.addEventListener('click', () => {
+                elements.helpModal.classList.add('active');
+            });
+            
+            elements.closeHelp.addEventListener('click', () => {
+                elements.helpModal.classList.remove('active');
+            });
+            
+            // Search
+            elements.searchInput.addEventListener('input', handleSearch);
+            
+            // Home page
+            elements.viewAllRoutines.addEventListener('click', () => {
+                showPage('allRoutines');
+            });
+            
+            elements.bookmarkRoutine.addEventListener('click', () => {
+                toggleBookmark('resistencia-tactica');
+            });
+            
+            elements.startRoutine.addEventListener('click', () => {
+                startWorkout('resistencia-tactica');
+            });
+            
+            // Category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const category = card.getAttribute('data-category');
+                    showCategoryPage(category);
+                });
+            });
+            
+            // Routine items
+            document.querySelectorAll('.routine-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // Prevent triggering if clicking on the play button
+                    if (!e.target.closest('.play-button')) {
+                        const routineId = item.getAttribute('data-routine-id');
+                        showRoutineDetail(routineId);
+                    }
+                });
+            });
+            
+            // Play buttons
+            document.querySelectorAll('.play-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const routineItem = button.closest('.routine-item');
+                    const routineId = routineItem.getAttribute('data-routine-id');
+                    startWorkout(routineId);
+                });
+            });
+            
+            // Category page
+            elements.sortRoutines.addEventListener('change', () => {
+                sortCategoryRoutines();
+            });
+            
+            // Routine detail page
+            elements.routineDetailBookmark.addEventListener('click', () => {
+                if (appState.currentRoutine) {
+                    toggleBookmark(appState.currentRoutine.id);
+                }
+            });
+            
+            elements.startRoutineDetail.addEventListener('click', () => {
+                if (appState.currentRoutine) {
+                    startWorkout(appState.currentRoutine.id);
+                }
+            });
+            
+            // Workout page
+            elements.pauseWorkout.addEventListener('click', togglePauseWorkout);
+            elements.nextExercise.addEventListener('click', nextExercise);
+            elements.endWorkout.addEventListener('click', endWorkout);
+            
+            // All routines page
+            elements.filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    elements.filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-primary', 'text-white');
+                        btn.classList.add('bg-white', 'dark:bg-surface-dark', 'text-gray-900', 'dark:text-white');
+                    });
+                    
+                    button.classList.remove('bg-white', 'dark:bg-surface-dark', 'text-gray-900', 'dark:text-white');
+                    button.classList.add('bg-primary', 'text-white');
+                    
+                    // Filter routines
+                    const filter = button.getAttribute('data-filter');
+                    filterRoutines(filter);
+                });
+            });
+            
+            elements.sortAllRoutines.addEventListener('change', () => {
+                sortAllRoutines();
+            });
+        }
+
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                updateThemeIcon(false);
+            } else {
+                document.documentElement.classList.add('dark');
+                updateThemeIcon(true);
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        // Update theme icon
+        function updateThemeIcon(isDark) {
+            const icon = elements.themeToggle.querySelector('.material-symbols-outlined');
+            if (isDark) {
+                icon.textContent = 'dark_mode';
+            } else {
+                icon.textContent = 'light_mode';
+            }
+        }
+
+        // Show page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            elements[`${pageId}Page`].classList.add('active');
+            
+            // Update app state
+            appState.currentPage = pageId;
+            
+            // Update page title
+            updatePageTitle(pageId);
+        }
+
+        // Update page title
+        function updatePageTitle(pageId) {
+            switch (pageId) {
+                case 'home':
+                    elements.pageTitle.textContent = 'Entrenamiento';
+                    break;
+                case 'category':
+                    elements.pageTitle.textContent = 'Categoría';
+                    break;
+                case 'routineDetail':
+                    elements.pageTitle.textContent = 'Rutina';
+                    break;
+                case 'workout':
+                    elements.pageTitle.textContent = 'Entrenamiento';
+                    break;
+                case 'allRoutines':
+                    elements.pageTitle.textContent = 'Rutinas';
+                    break;
+                default:
+                    elements.pageTitle.textContent = 'Entrenamiento';
+            }
+        }
+
+        // Handle back button
+        function handleBackButton() {
+            if (appState.workoutActive) {
+                // If in workout, show confirmation dialog
+                if (confirm('¿Estás seguro de que quieres abandonar el entrenamiento?')) {
+                    endWorkout();
+                }
+                return;
+            }
+            
+            switch (appState.currentPage) {
+                case 'home':
+                    // If on home page, could exit app or go to previous page
+                    showToast('Ya estás en la página principal');
+                    break;
+                case 'category':
+                case 'routineDetail':
+                case 'allRoutines':
+                    showPage('home');
+                    break;
+                default:
+                    showPage('home');
+            }
+        }
+
+        // Handle search
+        function handleSearch() {
+            const query = elements.searchInput.value.toLowerCase().trim();
+            
+            if (!query) {
+                // If search is empty, show all routines
+                showAllRoutines();
+                return;
+            }
+            
+            // Filter routines based on search query
+            const allRoutines = getAllRoutines();
+            const filteredRoutines = allRoutines.filter(routine => 
+                routine.name.toLowerCase().includes(query) || 
+                routine.description.toLowerCase().includes(query) ||
+                routine.type.toLowerCase().includes(query)
+            );
+            
+            // Show filtered routines
+            showFilteredRoutines(filteredRoutines, `Resultados para "${query}"`);
+        }
+
+        // Show category page
+        function showCategoryPage(categoryId) {
+            const category = categories[categoryId];
+            if (!category) return;
+            
+            // Update category page content
+            elements.categoryTitle.textContent = category.title;
+            elements.categoryName.textContent = category.title;
+            elements.categoryDescription.textContent = category.fullDescription;
+            
+            // Clear previous routines
+            elements.categoryRoutines.innerHTML = '';
+            
+            // Add category routines
+            category.routines.forEach(routine => {
+                const routineElement = createRoutineElement(routine);
+                elements.categoryRoutines.appendChild(routineElement);
+            });
+            
+            // Add additional routines that belong to this category
+            const additionalRoutinesInCategory = additionalRoutines.filter(routine => routine.category === categoryId);
+            additionalRoutinesInCategory.forEach(routine => {
+                const routineElement = createRoutineElement(routine);
+                elements.categoryRoutines.appendChild(routineElement);
+            });
+            
+            // Update app state
+            appState.currentCategory = categoryId;
+            
+            // Show category page
+            showPage('category');
+        }
+
+        // Create routine element
+        function createRoutineElement(routine) {
+            const div = document.createElement('div');
+            div.className = 'routine-item flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm cursor-pointer';
+            div.setAttribute('data-routine-id', routine.id);
+            
+            const isBookmarked = appState.bookmarkedRoutines.includes(routine.id);
+            const bookmarkIcon = isBookmarked ? 'bookmark' : 'bookmark_border';
+            const bookmarkFill = isBookmarked ? 'fill-current' : '';
+            
+            div.innerHTML = `
+                <div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="${routine.name}" style='background-image: url("${routine.image}");'></div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-gray-900 dark:text-white font-bold text-base truncate">${routine.name}</h4>
+                    <p class="text-text-secondary text-xs mt-1">${routine.duration} • ${routine.type}</p>
+                </div>
+                <button class="bookmark-button w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+                    <span class="material-symbols-outlined text-[20px] ${bookmarkFill}">${bookmarkIcon}</span>
+                </button>
+                <button class="play-button w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+                    <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                </button>
+            `;
+            
+            // Add event listeners
+            const playButton = div.querySelector('.play-button');
+            playButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                startWorkout(routine.id);
+            });
+            
+            const bookmarkButton = div.querySelector('.bookmark-button');
+            bookmarkButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleBookmark(routine.id);
+            });
+            
+            div.addEventListener('click', () => {
+                showRoutineDetail(routine.id);
+            });
+            
+            return div;
+        }
+
+        // Show routine detail
+        function showRoutineDetail(routineId) {
+            // Find routine
+            const routine = findRoutineById(routineId);
+            if (!routine) return;
+            
+            // Update routine detail page content
+            elements.routineDetailImage.style.backgroundImage = `url(${routine.image})`;
+            elements.routineDetailCategory.textContent = routine.type;
+            elements.routineDetailName.textContent = routine.name;
+            elements.routineDetailDescription.textContent = routine.description;
+            elements.routineDetailDuration.textContent = routine.duration;
+            elements.routineDetailType.textContent = routine.type;
+            elements.routineDetailIntensity.textContent = `Intensidad ${routine.intensity}`;
+            
+            // Update bookmark icon
+            const isBookmarked = appState.bookmarkedRoutines.includes(routineId);
+            elements.routineDetailBookmark.textContent = isBookmarked ? 'bookmark' : 'bookmark_border';
+            elements.routineDetailBookmark.classList.toggle('fill-current', isBookmarked);
+            
+            // Clear previous exercises
+            elements.routineExercises.innerHTML = '';
+            
+            // Add exercises
+            routine.exercises.forEach((exercise, index) => {
+                const exerciseElement = document.createElement('div');
+                exerciseElement.className = 'bg-gray-100 dark:bg-gray-800 rounded-lg p-3 flex items-center gap-3';
+                
+                exerciseElement.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
+                        ${index + 1}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-gray-900 dark:text-white font-bold text-sm">${exercise.name}</h4>
+                        <p class="text-text-secondary text-xs">${exercise.description}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-900 dark:text-white font-bold text-sm">${exercise.sets} series</p>
+                        <p class="text-text-secondary text-xs">${exercise.reps}</p>
+                        ${exercise.rest !== '0' ? `<p class="text-text-secondary text-xs">Descanso: ${exercise.rest}</p>` : ''}
+                    </div>
+                `;
+                
+                elements.routineExercises.appendChild(exerciseElement);
+            });
+            
+            // Update app state
+            appState.currentRoutine = routine;
+            
+            // Show routine detail page
+            showPage('routineDetail');
+        }
+
+        // Toggle bookmark
+        function toggleBookmark(routineId) {
+            const index = appState.bookmarkedRoutines.indexOf(routineId);
+            
+            if (index === -1) {
+                // Add to bookmarks
+                appState.bookmarkedRoutines.push(routineId);
+                showToast('Rutina guardada en favoritos');
+            } else {
+                // Remove from bookmarks
+                appState.bookmarkedRoutines.splice(index, 1);
+                showToast('Rutina eliminada de favoritos');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('bookmarkedRoutines', JSON.stringify(appState.bookmarkedRoutines));
+            
+            // Update UI
+            updateBookmarkUI(routineId);
+        }
+
+        // Update bookmark UI
+        function updateBookmarkUI(routineId) {
+            // Update bookmark icon in home page
+            if (routineId === 'resistencia-tactica') {
+                const isBookmarked = appState.bookmarkedRoutines.includes(routineId);
+                elements.bookmarkRoutine.textContent = isBookmarked ? 'bookmark' : 'bookmark_border';
+                elements.bookmarkRoutine.classList.toggle('fill-current', isBookmarked);
+            }
+            
+            // Update bookmark icon in routine detail page
+            if (appState.currentRoutine && appState.currentRoutine.id === routineId) {
+                const isBookmarked = appState.bookmarkedRoutines.includes(routineId);
+                elements.routineDetailBookmark.textContent = isBookmarked ? 'bookmark' : 'bookmark_border';
+                elements.routineDetailBookmark.classList.toggle('fill-current', isBookmarked);
+            }
+            
+            // Update bookmark icons in routine lists
+            document.querySelectorAll(`[data-routine-id="${routineId}"] .bookmark-button .material-symbols-outlined`).forEach(icon => {
+                const isBookmarked = appState.bookmarkedRoutines.includes(routineId);
+                icon.textContent = isBookmarked ? 'bookmark' : 'bookmark_border';
+                icon.classList.toggle('fill-current', isBookmarked);
+            });
+        }
+
+        // Start workout
+        function startWorkout(routineId) {
+            // Find routine
+            const routine = findRoutineById(routineId);
+            if (!routine) return;
+            
+            // Update workout page content
+            elements.workoutRoutineName.textContent = routine.name;
+            elements.currentExerciseName.textContent = routine.exercises[0].name;
+            elements.currentExerciseDescription.textContent = routine.exercises[0].description;
+            elements.currentExerciseSets.textContent = routine.exercises[0].sets;
+            elements.currentExerciseReps.textContent = routine.exercises[0].reps;
+            elements.currentExerciseRest.textContent = routine.exercises[0].rest !== '0' ? routine.exercises[0].rest : 'N/A';
+            
+            // Update progress
+            elements.workoutProgress.textContent = `1/${routine.exercises.length}`;
+            
+            // Clear and update upcoming exercises
+            elements.upcomingExercises.innerHTML = '';
+            for (let i = 1; i < Math.min(3, routine.exercises.length); i++) {
+                const upcomingExercise = document.createElement('div');
+                upcomingExercise.className = 'bg-gray-100 dark:bg-gray-800 rounded-lg p-2 flex items-center gap-2';
+                
+                upcomingExercise.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center justify-center text-xs font-bold">
+                        ${i + 1}
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-900 dark:text-white font-medium text-sm">${routine.exercises[i].name}</p>
+                        <p class="text-text-secondary text-xs">${routine.exercises[i].sets} × ${routine.exercises[i].reps}</p>
+                    </div>
+                `;
+                
+                elements.upcomingExercises.appendChild(upcomingExercise);
+            }
+            
+            // Update app state
+            appState.workoutActive = true;
+            appState.currentRoutine = routine;
+            appState.currentExerciseIndex = 0;
+            appState.workoutSeconds = 0;
+            
+            // Start timer
+            startWorkoutTimer();
+            
+            // Show workout page
+            showPage('workout');
+            
+            showToast('Entrenamiento iniciado');
+        }
+
+        // Start workout timer
+        function startWorkoutTimer() {
+            appState.workoutTimer = setInterval(() => {
+                appState.workoutSeconds++;
+                updateWorkoutTimer();
+            }, 1000);
+        }
+
+        // Update workout timer
+        function updateWorkoutTimer() {
+            const minutes = Math.floor(appState.workoutSeconds / 60);
+            const seconds = appState.workoutSeconds % 60;
+            elements.workoutTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Toggle pause workout
+        function togglePauseWorkout() {
+            if (appState.workoutTimer) {
+                // Pause workout
+                clearInterval(appState.workoutTimer);
+                appState.workoutTimer = null;
+                elements.pauseWorkout.querySelector('.material-symbols-outlined').textContent = 'play_arrow';
+                showToast('Entrenamiento pausado');
+            } else {
+                // Resume workout
+                startWorkoutTimer();
+                elements.pauseWorkout.querySelector('.material-symbols-outlined').textContent = 'pause';
+                showToast('Entrenamiento reanudado');
+            }
+        }
+
+        // Next exercise
+        function nextExercise() {
+            if (!appState.currentRoutine) return;
+            
+            // Increment exercise index
+            appState.currentExerciseIndex++;
+            
+            // Check if workout is complete
+            if (appState.currentExerciseIndex >= appState.currentRoutine.exercises.length) {
+                completeWorkout();
+                return;
+            }
+            
+            // Update current exercise
+            const exercise = appState.currentRoutine.exercises[appState.currentExerciseIndex];
+            elements.currentExerciseName.textContent = exercise.name;
+            elements.currentExerciseDescription.textContent = exercise.description;
+            elements.currentExerciseSets.textContent = exercise.sets;
+            elements.currentExerciseReps.textContent = exercise.reps;
+            elements.currentExerciseRest.textContent = exercise.rest !== '0' ? exercise.rest : 'N/A';
+            
+            // Update progress
+            elements.workoutProgress.textContent = `${appState.currentExerciseIndex + 1}/${appState.currentRoutine.exercises.length}`;
+            
+            // Update upcoming exercises
+            elements.upcomingExercises.innerHTML = '';
+            for (let i = appState.currentExerciseIndex + 1; i < Math.min(appState.currentExerciseIndex + 4, appState.currentRoutine.exercises.length); i++) {
+                const upcomingExercise = document.createElement('div');
+                upcomingExercise.className = 'bg-gray-100 dark:bg-gray-800 rounded-lg p-2 flex items-center gap-2';
+                
+                upcomingExercise.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center justify-center text-xs font-bold">
+                        ${i + 1}
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-900 dark:text-white font-medium text-sm">${appState.currentRoutine.exercises[i].name}</p>
+                        <p class="text-text-secondary text-xs">${appState.currentRoutine.exercises[i].sets} × ${appState.currentRoutine.exercises[i].reps}</p>
+                    </div>
+                `;
+                
+                elements.upcomingExercises.appendChild(upcomingExercise);
+            }
+        }
+
+        // Complete workout
+        function completeWorkout() {
+            // Stop timer
+            if (appState.workoutTimer) {
+                clearInterval(appState.workoutTimer);
+                appState.workoutTimer = null;
+            }
+            
+            // Add to completed routines
+            if (appState.currentRoutine && !appState.completedRoutines.includes(appState.currentRoutine.id)) {
+                appState.completedRoutines.push(appState.currentRoutine.id);
+                localStorage.setItem('completedRoutines', JSON.stringify(appState.completedRoutines));
+            }
+            
+            // Show completion message
+            showToast('¡Entrenamiento completado! ¡Buen trabajo!');
+            
+            // Reset app state
+            appState.workoutActive = false;
+            appState.currentExerciseIndex = 0;
+            appState.workoutSeconds = 0;
+            
+            // Go to routine detail page
+            if (appState.currentRoutine) {
+                showRoutineDetail(appState.currentRoutine.id);
+            } else {
+                showPage('home');
+            }
+        }
+
+        // End workout
+        function endWorkout() {
+            // Stop timer
+            if (appState.workoutTimer) {
+                clearInterval(appState.workoutTimer);
+                appState.workoutTimer = null;
+            }
+            
+            // Show confirmation dialog
+            if (confirm('¿Estás seguro de que quieres finalizar el entrenamiento?')) {
+                // Add to completed routines if progress is significant
+                if (appState.currentRoutine && appState.currentExerciseIndex > 0) {
+                    if (!appState.completedRoutines.includes(appState.currentRoutine.id)) {
+                        appState.completedRoutines.push(appState.currentRoutine.id);
+                        localStorage.setItem('completedRoutines', JSON.stringify(appState.completedRoutines));
+                    }
+                    showToast('Entrenamiento guardado como completado');
+                } else {
+                    showToast('Entrenamiento finalizado');
+                }
+                
+                // Reset app state
+                appState.workoutActive = false;
+                appState.currentExerciseIndex = 0;
+                appState.workoutSeconds = 0;
+                
+                // Go to routine detail page
+                if (appState.currentRoutine) {
+                    showRoutineDetail(appState.currentRoutine.id);
+                } else {
+                    showPage('home');
+                }
+            }
+        }
+
+        // Show all routines
+        function showAllRoutines() {
+            // Clear previous routines
+            elements.allRoutinesList.innerHTML = '';
+            
+            // Get all routines
+            const allRoutines = getAllRoutines();
+            
+            // Add routines to list
+            allRoutines.forEach(routine => {
+                const routineElement = createAllRoutinesElement(routine);
+                elements.allRoutinesList.appendChild(routineElement);
+            });
+            
+            // Show all routines page
+            showPage('allRoutines');
+        }
+
+        // Create all routines element
+        function createAllRoutinesElement(routine) {
+            const div = document.createElement('div');
+            div.className = 'bg-white dark:bg-surface-dark rounded-lg shadow-sm overflow-hidden';
+            div.setAttribute('data-routine-id', routine.id);
+            div.setAttribute('data-difficulty', routine.difficulty || 'intermediate');
+            
+            const isBookmarked = appState.bookmarkedRoutines.includes(routine.id);
+            const bookmarkIcon = isBookmarked ? 'bookmark' : 'bookmark_border';
+            const bookmarkFill = isBookmarked ? 'fill-current' : '';
+            
+            const difficultyColor = getDifficultyColor(routine.difficulty || 'intermediate');
+            
+            div.innerHTML = `
+                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="${routine.name}" style='background-image: url("${routine.image}");'>
+                    <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">INTENSIDAD ${routine.intensity.toUpperCase()}</div>
+                    <div class="absolute top-3 right-3 bg-${difficultyColor} text-white text-xs font-bold px-2 py-1 rounded">${getDifficultyText(routine.difficulty || 'intermediate')}</div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight">${routine.name}</h3>
+                        <button class="bookmark-button">
+                            <span class="material-symbols-outlined text-primary ${bookmarkFill}">${bookmarkIcon}</span>
+                        </button>
+                    </div>
+                    <p class="text-text-secondary text-sm font-normal leading-normal line-clamp-2 mb-3">${routine.description}</p>
+                    <div class="flex items-center gap-4 mb-4 text-xs text-text-secondary font-medium">
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">schedule</span>
+                            ${routine.duration}
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">fitness_center</span>
+                            ${routine.type}
+                        </div>
+                    </div>
+                    <button class="start-routine-button flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal uppercase tracking-wide">
+                        Iniciar Entrenamiento
+                    </button>
+                </div>
+            `;
+            
+            // Add event listeners
+            const startButton = div.querySelector('.start-routine-button');
+            startButton.addEventListener('click', () => {
+                startWorkout(routine.id);
+            });
+            
+            const bookmarkButton = div.querySelector('.bookmark-button');
+            bookmarkButton.addEventListener('click', () => {
+                toggleBookmark(routine.id);
+            });
+            
+            return div;
+        }
+
+        // Get difficulty color
+        function getDifficultyColor(difficulty) {
+            switch (difficulty) {
+                case 'beginner':
+                    return 'green-600';
+                case 'intermediate':
+                    return 'yellow-600';
+                case 'advanced':
+                    return 'red-600';
+                default:
+                    return 'gray-600';
+            }
+        }
+
+        // Get difficulty text
+        function getDifficultyText(difficulty) {
+            switch (difficulty) {
+                case 'beginner':
+                    return 'Principiante';
+                case 'intermediate':
+                    return 'Intermedio';
+                case 'advanced':
+                    return 'Avanzado';
+                default:
+                    return 'Intermedio';
+            }
+        }
+
+        // Filter routines
+        function filterRoutines(filter) {
+            // Clear previous routines
+            elements.allRoutinesList.innerHTML = '';
+            
+            // Get all routines
+            const allRoutines = getAllRoutines();
+            
+            // Filter routines
+            let filteredRoutines;
+            if (filter === 'all') {
+                filteredRoutines = allRoutines;
+            } else {
+                filteredRoutines = allRoutines.filter(routine => routine.difficulty === filter);
+            }
+            
+            // Add routines to list
+            filteredRoutines.forEach(routine => {
+                const routineElement = createAllRoutinesElement(routine);
+                elements.allRoutinesList.appendChild(routineElement);
+            });
+        }
+
+        // Sort all routines
+        function sortAllRoutines() {
+            const sortBy = elements.sortAllRoutines.value;
+            
+            // Get all routine elements
+            const routineElements = Array.from(elements.allRoutinesList.children);
+            
+            // Sort routine elements
+            routineElements.sort((a, b) => {
+                const aId = a.getAttribute('data-routine-id');
+                const bId = b.getAttribute('data-routine-id');
+                
+                const aRoutine = findRoutineById(aId);
+                const bRoutine = findRoutineById(bId);
+                
+                switch (sortBy) {
+                    case 'popular':
+                        // Sort by popularity (using completed routines as a proxy)
+                        const aCompleted = appState.completedRoutines.includes(aId) ? 1 : 0;
+                        const bCompleted = appState.completedRoutines.includes(bId) ? 1 : 0;
+                        return bCompleted - aCompleted;
+                    case 'newest':
+                        // Sort by ID (assuming newer routines have higher IDs)
+                        return bId.localeCompare(aId);
+                    case 'difficulty':
+                        // Sort by difficulty
+                        const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+                        const aDifficulty = difficultyOrder[aRoutine.difficulty || 'intermediate'];
+                        const bDifficulty = difficultyOrder[bRoutine.difficulty || 'intermediate'];
+                        return aDifficulty - bDifficulty;
+                    case 'duration':
+                        // Sort by duration (shortest first)
+                        const aDuration = parseInt(aRoutine.duration);
+                        const bDuration = parseInt(bRoutine.duration);
+                        return aDuration - bDuration;
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Re-append sorted elements
+            routineElements.forEach(element => {
+                elements.allRoutinesList.appendChild(element);
+            });
+        }
+
+        // Sort category routines
+        function sortCategoryRoutines() {
+            const sortBy = elements.sortRoutines.value;
+            
+            // Get all routine elements
+            const routineElements = Array.from(elements.categoryRoutines.children);
+            
+            // Sort routine elements
+            routineElements.sort((a, b) => {
+                const aId = a.getAttribute('data-routine-id');
+                const bId = b.getAttribute('data-routine-id');
+                
+                const aRoutine = findRoutineById(aId);
+                const bRoutine = findRoutineById(bId);
+                
+                switch (sortBy) {
+                    case 'popular':
+                        // Sort by popularity (using completed routines as a proxy)
+                        const aCompleted = appState.completedRoutines.includes(aId) ? 1 : 0;
+                        const bCompleted = appState.completedRoutines.includes(bId) ? 1 : 0;
+                        return bCompleted - aCompleted;
+                    case 'newest':
+                        // Sort by ID (assuming newer routines have higher IDs)
+                        return bId.localeCompare(aId);
+                    case 'difficulty':
+                        // Sort by difficulty
+                        const difficultyOrder = { 'Baja': 1, 'Media': 2, 'Alta': 3 };
+                        const aDifficulty = difficultyOrder[aRoutine.intensity];
+                        const bDifficulty = difficultyOrder[bRoutine.intensity];
+                        return aDifficulty - bDifficulty;
+                    case 'duration':
+                        // Sort by duration (shortest first)
+                        const aDuration = parseInt(aRoutine.duration);
+                        const bDuration = parseInt(bRoutine.duration);
+                        return aDuration - bDuration;
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Re-append sorted elements
+            routineElements.forEach(element => {
+                elements.categoryRoutines.appendChild(element);
+            });
+        }
+
+        // Show filtered routines
+        function showFilteredRoutines(routines, title) {
+            // Update title
+            elements.pageTitle.textContent = title;
+            
+            // Clear previous routines
+            elements.allRoutinesList.innerHTML = '';
+            
+            // Add routines to list
+            routines.forEach(routine => {
+                const routineElement = createAllRoutinesElement(routine);
+                elements.allRoutinesList.appendChild(routineElement);
+            });
+            
+            // Show all routines page
+            showPage('allRoutines');
+        }
+
+        // Get all routines
+        function getAllRoutines() {
+            let allRoutines = [...additionalRoutines];
+            
+            // Add routines from all categories
+            Object.values(categories).forEach(category => {
+                allRoutines = [...allRoutines, ...category.routines];
+            });
+            
+            return allRoutines;
+        }
+
+        // Find routine by ID
+        function findRoutineById(routineId) {
+            // Check additional routines
+            const additionalRoutine = additionalRoutines.find(routine => routine.id === routineId);
+            if (additionalRoutine) return additionalRoutine;
+            
+            // Check routines in categories
+            for (const category of Object.values(categories)) {
+                const routine = category.routines.find(routine => routine.id === routineId);
+                if (routine) return routine;
+            }
+            
+            return null;
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            elements.toast.textContent = message;
+            elements.toast.classList.add('show');
+            
+            setTimeout(() => {
+                elements.toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
