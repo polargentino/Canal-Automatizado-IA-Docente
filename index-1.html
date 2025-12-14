@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Entrenamiento Físico - Nunca Nos Rendiremos</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1152d4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+              "surface-dark": "#192233",
+              "text-secondary": "#92a4c9"
+            },
+            fontFamily: {
+              "display": ["Public Sans", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem", 
+              "lg": "0.5rem", 
+              "xl": "0.75rem", 
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        /* Custom scrollbar hide for horizontal scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-gray-200 dark:border-gray-800">
+<div class="text-gray-900 dark:text-white flex size-12 shrink-0 items-center justify-start cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center uppercase">Entrenamiento</h2>
+<div class="flex size-12 items-center justify-end cursor-pointer">
+<span class="material-symbols-outlined text-text-secondary text-[24px]">help</span>
+</div>
+</div>
+<!-- Motivational Header -->
+<div class="px-4 pt-6 pb-2">
+<h3 class="text-primary tracking-wide text-xs font-bold uppercase mb-1">Nunca Nos Rendiremos</h3>
+<h1 class="text-gray-900 dark:text-white text-3xl font-extrabold leading-tight">Fortaleza para la batalla</h1>
+<p class="text-text-secondary text-sm mt-2">Prepara tu cuerpo y mente con rutinas diseñadas para la disciplina táctica y espiritual.</p>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-4">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full shadow-sm">
+<div class="text-text-secondary flex border-none bg-white dark:bg-[#232f48] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none text-gray-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-white dark:bg-[#232f48] focus:border-none h-full placeholder:text-text-secondary px-4 pl-2 text-base font-normal leading-normal" placeholder="Buscar rutina..." value=""/>
+</div>
+</label>
+</div>
+<!-- Section: Featured (Routine of the Day) -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between px-4 pb-2 pt-2">
+<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight">Rutina del Día</h2>
+<a class="text-primary text-sm font-bold" href="#">Ver todo</a>
+</div>
+<div class="px-4 @container">
+<div class="flex flex-col items-stretch justify-start rounded-lg shadow-lg dark:shadow-[0_0_4px_rgba(0,0,0,0.3)] bg-white dark:bg-surface-dark overflow-hidden">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="Dark moody gym setting with tactical weights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCtB43JUc5LjdFCS-FMrcAJmuslKCmryoEeK3f183lPKjn3VZmnva1Ddi2lGFa3nbV4c4_rWj41ZR22CCBpebqY5xITnEhXW3Xzmk5fBK82qq6kxLCQew4frfOjxruBPgHRsF5lc2Pyxvh7WADlVHon5TbPNEMjE8U4wh6H9EYpGqxLrym5msuXq6Pcgb09pri8xvoy6ULNf-c2w2iY3qzwGk1BwUlFy3aFGvFbPv780mBtb4OYKrZ1TL6bCj8sVzKkjFKLZrlXqQ");'>
+<div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">INTENSIDAD ALTA</div>
+</div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 p-4">
+<div class="flex justify-between items-start">
+<h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight">Resistencia Táctica</h3>
+<span class="material-symbols-outlined text-primary">bookmark_border</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal line-clamp-2">Un circuito diseñado para simular condiciones de campo. Incluye carrera con peso y ejercicios calisténicos.</p>
+<div class="flex items-center gap-4 mt-3 mb-4 text-xs text-text-secondary font-medium">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                45 min
+                            </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">fitness_center</span>
+                                Fuerza y Cardio
+                            </div>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal uppercase tracking-wide">
+                            Iniciar Entrenamiento
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Categories Grid -->
+<div class="flex flex-col mt-6">
+<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight px-4 pb-3">Categorías</h2>
+<div class="grid grid-cols-2 gap-3 px-4">
+<!-- Category Card 1 -->
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[28px]">directions_run</span>
+</div>
+<h4 class="text-gray-900 dark:text-white font-bold text-sm">Cardio Táctico</h4>
+<p class="text-text-secondary text-xs">Resistencia y velocidad</p>
+</div>
+<!-- Category Card 2 -->
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[28px]">fitness_center</span>
+</div>
+<h4 class="text-gray-900 dark:text-white font-bold text-sm">Fuerza Bruta</h4>
+<p class="text-text-secondary text-xs">Pesas y potencia</p>
+</div>
+<!-- Category Card 3 -->
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[28px]">self_improvement</span>
+</div>
+<h4 class="text-gray-900 dark:text-white font-bold text-sm">Mentalidad</h4>
+<p class="text-text-secondary text-xs">Control y respiración</p>
+</div>
+<!-- Category Card 4 -->
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center gap-2 aspect-[4/3] cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[28px]">accessibility_new</span>
+</div>
+<h4 class="text-gray-900 dark:text-white font-bold text-sm">Movilidad</h4>
+<p class="text-text-secondary text-xs">Flexibilidad activa</p>
+</div>
+</div>
+</div>
+<!-- Section: Popular Routines List -->
+<div class="flex flex-col mt-8 pb-8">
+<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight px-4 pb-3">Populares esta semana</h2>
+<div class="flex flex-col gap-3 px-4">
+<!-- List Item 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Soldiers running in formation" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzY9bG3B7gk9gNmhXb18ZGJI_x8ZA_Y2eLyhli36hA2JRepPT5wneWjlfqEUPuY42xL5rsufxBpsd4kTO7rh3lz4N09N-VcieD_JHWRqgVvgyXlv9P12h86v3eG8lcgUeJItH8kESi1nCHeFs3t5zNWIZlOf9KmPN4upvIH3r8MqZNfWT_g9w8hq2P3zj2oA4Ca51fTKUZrJ1OkJc7-BtU_2ziQDYegoxVQP14kL9C3hwxAb4nsJMzYCd2H5V8nwcw0UrgAT8fXg");'></div>
+<div class="flex-1 min-w-0">
+<h4 class="text-gray-900 dark:text-white font-bold text-base truncate">Marcha Ruck 10K</h4>
+<p class="text-text-secondary text-xs mt-1">60-90 min • Exterior</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="h-1.5 w-16 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+<span class="text-[10px] text-text-secondary">En progreso</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Person doing pushups outdoors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBG0gE1FrDdR7AOLqQIfKUtvup-IankcetILcy1uI1ZGM83fQXCbvrlsYCy-qTbZQ5cpN-wT0CFkMvledk0kkjS1CxEFF8uTqb40R_EHRqUWKCDwYM0_VYu9_6kCkZAd7McFt3RQgOPAf1FoZHvFgVu2VT9KOCu4Oy-7UfUSEvvDs3coubJs-jUfZe8CpFBSLXJ-x7u101WLVtYydENq2FxvhluMAfkju0yj2JmnhdWBPtx6Zj6DfAQ_icuMXC6E1Z71b7pXIwdGg");'></div>
+<div class="flex-1 min-w-0">
+<h4 class="text-gray-900 dark:text-white font-bold text-base truncate">El Murph Modificado</h4>
+<p class="text-text-secondary text-xs mt-1">30 min • Sin equipo</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center gap-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-sm">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-cover bg-center" data-alt="Close up of kettlebell weights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDQeLqULt293GV82KEgabR5OBdQUn_P6k4GOdmsUu5SAupda5otZM0l9afQSogLYVlPucbhnIRvAC0RPuUhvyvRqW4UOwOHYfW4NOSrSX4s0xtPIEIKNGcy74jm7GPk7U18GPwdjAy6CFyMVReUwJk4vPeoOPGSUAxa00By5NVNo_pgw_TPozFt5l2z7CtKLSP9wDMhPTDh5Ntl_4IOwOiMUnArvAaOmHxtxuN09WRPQ0j_42v56g4NwEps6YebmqVUEJthX_nZZw");'></div>
+<div class="flex-1 min-w-0">
+<h4 class="text-gray-900 dark:text-white font-bold text-base truncate">Core de Acero</h4>
+<p class="text-text-secondary text-xs mt-1">15 min • Alta Intensidad</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Spacing -->
+<div class="h-20"></div>
+</div>
+</body></html>
