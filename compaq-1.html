@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA x Dragon Ball Z - El Viaje Visual</title>
+    <style>
+        /* Estilos generales con estética DBZ */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Usamos la imagen generada como fondo fijo */
+            background: url('Gemini_Generated_Image_vpa9vlvpa9vlvpa9.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Capa de oscurecimiento para legibilidad */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Título con estilo de energía */
+        h1 {
+            font-size: 3rem;
+            margin-top: 40px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #ff8c00, 0 0 20px #ff4500, 4px 4px 0px #000;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Contenedor del video con aura azul */
+        .video-wrapper {
+            position: relative;
+            padding: 15px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+            margin: 30px 0;
+            max-width: 90%;
+            width: 800px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+            border: 3px solid #000;
+        }
+
+        /* Tarjeta de información estilo Glassmorphism */
+        .container {
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 140, 0, 0.5);
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #ff8c00;
+            border-bottom: 2px solid #ff8c00;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        strong {
+            color: #00d2ff;
+        }
+
+        /* Pequeño efecto de partículas ilusorias */
+        .energy-flare {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,140,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.4; }
+            to { transform: scale(1.5); opacity: 0.7; }
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .container { width: 90%; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>El Viaje de la IA: <br>Poder Saiyan Visual</h1>
+    
+    <div class="video-wrapper">
+        <video controls poster="dragon-pol-z-1.jpg">
+            <source src="assets/video_final_v1.mp4" type="video/mp4">
+            Tu navegador no soporta el formato de video.
+        </video>
+    </div>
+
+    <div class="container">
+        <h2>Detrás de cámaras: El Gran Torneo</h2>
+        <p>Este video representa la fusión definitiva entre la creatividad humana y el poder de la Inteligencia Artificial.</p>
+        <p><strong>Fusión de Herramientas:</strong> Los clips fueron generados con las IAs más potentes (Grok, Runway y Kling). El montaje se realizó en <strong>Kdenlive</strong> bajo condiciones extremas de hardware, demostrando que con voluntad, ¡cualquier guerrero puede editar!</p>
+        <p><strong>Sonido de Combate:</strong> El audio fue forjado en <strong>Audacity</strong> a 48000 Hz para una sincronización legendaria perfecta.</p>
+    </div>
+
+</body>
+</html>
