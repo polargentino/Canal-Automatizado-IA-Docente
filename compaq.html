@@ -2,25 +2,72 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Historia con IA</title>
     <style>
-        body { font-family: sans-serif; background: #1a1a1a; color: white; text-align: center; padding: 20px; }
-        video { width: 80%; max-width: 800px; border: 2px solid #555; border-radius: 10px; }
-        .container { max-width: 800px; margin: auto; text-align: left; }
+        /* Estilos mejorados */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #121212; 
+            color: #e0e0e0; 
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        h1, h2 { color: #ffffff; text-align: center; }
+        
+        .container { 
+            max-width: 900px; 
+            margin: auto; 
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Estilo para la imagen/banner */
+        .banner {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        /* Estilo para el video */
+        video { 
+            width: 100%; 
+            border: 1px solid #333; 
+            border-radius: 10px; 
+            margin: 20px 0;
+            background: #000;
+        }
+
+        .details { margin-top: 30px; }
+        strong { color: #00d1b2; } /* Un toque de color para destacar herramientas */
     </style>
 </head>
 <body>
-    <h1>El Viaje de la IA: Una Historia Visual</h1>
-    
-    <video controls>
-        <source src="assets/video_final_v1.mp4" type="video/mp4">
-        Tu navegador no soporta el formato de video.
-    </video>
 
     <div class="container">
-        <h2>Detrás de cámaras</h2>
-        <p>Este video fue creado usando una combinación de Grok, Runway y Kling.</p>
-        <p><strong>Proceso:</strong> Los clips de 5 segundos fueron ensamblados en <strong>Kdenlive</strong>. El audio fue procesado en <strong>Audacity</strong> a 48000 Hz para evitar desincronización.</p>
+        <h1>El Viaje de la IA: Una Historia Visual</h1>
+
+        <img src="https://eyrdvwljqyqlaiiherbo.supabase.co/storage/v1/object/sign/prueba-1/magic-eraser-1-ezgif.com-video-to-webp-converter.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMTRlZGRiMi01Mjc1LTQ3YzMtOTRlZS1mNTM1YmUzOTcwZTIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwcnVlYmEtMS9tYWdpYy1lcmFzZXItMS1lemdpZi5jb20tdmlkZW8tdG8td2VicC1jb252ZXJ0ZXIud2VicCIsImlhdCI6MTc2NzkwNjA3OCwiZXhwIjoxNzk5NDQyMDc4fQ.Vj6xhpOHMsijft9txg0C9uGnbP2Opnv-NVPlXb_rXxE" 
+             alt="Banner de IA" 
+             class="banner">
+
+        <video controls>
+            <source src="assets/grok-video-fa15407c-e93d-4dbc-b672-96e3bcea1d1e (13).mp4" type="video/mp4">
+            Tu navegador no soporta el formato de video.
+        </video>
+
+        <div class="details">
+            <h2>Detrás de cámaras: pol monsa con varias IAs</h2>
+            <p>Este video fue creado usando una combinación de <strong>Grok</strong>, <strong>Runway</strong> y <strong>Kling</strong>.</p>
+            <p><strong>Proceso:</strong> Los clips de 5 segundos fueron ensamblados en <strong>Kdenlive</strong>. El audio fue procesado en <strong>Audacity</strong> a 48000 Hz para garantizar la máxima calidad y evitar desincronización.</p>
+        </div>
     </div>
+
 </body>
 </html>
